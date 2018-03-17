@@ -20,18 +20,38 @@
     ```
 
 ## 医生
+### 登录
+- route:/login/
+- method:POST
+- body:
+```
+{
+  regCode?:string,
+}
+```
+- response
+```
+{
+  code?:
+  info:{
+    hospital:string,
+    
+  }
+
+}
+```
 ### 设置上班时间
 - route:/doctor/setWorkTime
 - method:POST
 - body
-    ```
-      {
-        // 小时
-        hour:number,
-        // 分钟
-        minute:number,
-      }
-    ```
+```
+  {
+    // 小时
+    hour:number,
+    // 分钟
+    minute:number,
+  }
+```
 - response
     ```
       {
