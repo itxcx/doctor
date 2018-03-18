@@ -52,6 +52,8 @@ params:
   errMsg?:string,
   // ==================== 华丽分割线 ==================== 
   info?:{
+    // 医生编号,唯一
+    id:string,
     // 医院
     hospital:string,
     // 科室
@@ -131,7 +133,7 @@ params:
 }
 
 
-## 查看某日细节
+## 查看某日工作时间细节
 ** request **
 route:'/doctor/workDay'
 method:'get'
@@ -167,4 +169,193 @@ params:
     }[],
 
   }[]
+}
+
+## 医生查看某日预约列表
+** request **
+route:'/doctor/list'
+method:'get'
+header:{token:string,}
+params:
+{
+  year:number,
+  month:number,
+  day:number,
+}
+    
+** response **
+{
+  // 错误码,undefined表示没有错误
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  list:{name:string,}[][],
+}
+
+## 设置病人信息
+** request **
+route:'/patient/reg'
+method:'post'
+header:{token:string,}
+params:
+{
+  name:string,
+}
+
+** response **
+{
+  // 错误码,undefined表示没有错误
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  
+}
+
+## 获取所有医院,科室,医生信息
+** request **
+route:'/common/doctorList'
+method:'get'
+header:{token:string,}
+params:
+{
+  list:{
+    // 医生编号,唯一
+    id:string,
+    // 医院
+    hospital:string,
+    // 科室
+    office:string,
+    // 医生姓名
+    name:string,
+  }[],
+}
+
+** response **
+{
+  // 错误码,undefined表示没有错误
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  
+}
+
+
+## 获取病人信息
+** request **
+route:'patient/info'
+method:'get'
+header:{token:string,}
+params:
+{
+  
+}
+
+** response **
+{
+  // 错误码,undefined表示没有错误
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  info:{
+    name:string,
+  }
+}
+
+## 病人预约
+** request **
+route:'/patient/order'
+method:'post'
+header:{token:string,}
+params:
+{
+  // 医生编号,唯一
+  id:string,
+
+  year:number,
+  month:number,
+  day:number,
+  type:number,
+
+  // 特殊的或者操作code,用以信息模板
+  userCode:string,
+
+}
+
+** response **
+{
+  // 错误码,undefined表示没有错误
+  // 0 非法的日期信息
+  // 1 重复预约申请
+  // 2 不存在的医生编号
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  // 预约编号
+  id?:string,
+}
+
+
+## 病人取消预约
+** request **
+route:'/patient/order/cancel'
+method:'get'
+header:{token:string,}
+params:
+{
+  // 预约编号
+  id:string,
+}
+
+** response **
+{
+  // 错误码,undefined表示没有错误
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  
+}
+
+
+## 病人查看自己的所有预约
+## 
+** request **
+route:'/patient/list'
+method:'get'
+header:{token:string,}
+params:
+{
+  // 0 所有的预约
+  // 1 今天以及将来
+  type:number,
+}
+
+** response **
+{
+  // 错误码,undefined表示没有错误
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  list:{
+    // 预约编号
+    id:string,
+
+    // 医院
+    hospital:string,
+    // 科室
+    office:string,
+    // 医生姓名
+    name:string,
+
+    year:number,
+    month:number,
+    day:number,
+    type:number,
+  }[],
 }
