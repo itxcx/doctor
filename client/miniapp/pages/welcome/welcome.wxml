@@ -1,0 +1,29 @@
+<!--pages/welcome/welcome.wxml-->
+<view class='wrapper' style="width:{{windowWidth}}px;hegiht:{{windowHeight}}px">
+  <view class='user-image'>
+    <image src='../../images/user.png'></image>
+  </view>
+  <view class='login-mode'>
+    <view class="mode-wrapper {{currentMode=='doctor'?'active':''}}" bindtap='loginMode'>
+      <view class='label'>
+        医生
+      </view>
+      <view class='status'></view>
+    </view>
+    <view class="mode-wrapper {{currentMode=='user'?'active':''}}" bindtap="loginMode">
+      <view class='label'>
+        用户
+      </view>
+      <view class='status'></view>
+    </view>
+  </view>
+  <view class='login-button'>
+     <view class='user-button' wx:if="{{currentMode=='user'}}">
+      点击进入
+    </view> 
+    <view class='doctor-button' wx:else>
+      <input placeholder='请输入密码' placeholder-class='placeholder-class'></input>
+      <view class='enter'>进入</view>
+    </view>
+  </view>
+</view>
