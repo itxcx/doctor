@@ -3,3 +3,5 @@ README.html
 !.gitkeep
 protocol.html
 dist/
+logs/*.log
+

@@ -32,10 +32,10 @@ params:
   token?:string,
 }
 
-## 获取医生信息
+## 绑定医生信息
 ** request **
-route:'/doctor/info'
-method:'get'
+route:'/bind'
+method:'post'
 header:{token:string,}
 params:
 {
@@ -107,70 +107,6 @@ params:
   
 }
 
-## 查看日历
-** request **
-route:'/common/calendar'
-method:'get'
-header:{token:string,}
-params:
-{
-  doctorId:string,
-  year:number,
-  month:number,
-}
-
-** response **
-{
-  // 错误码,undefined表示没有错误
-  // 0 非法的日期
-  code?:number,
-  // 错误文本信息,提供给前端调试
-  errMsg?:string,
-  // ==================== 华丽分割线 ==================== 
-  info:{
-    // 工作日
-    workDay:number,
-  }[]
-}
-
-
-## 查看某日工作时间细节
-** request **
-route:'/doctor/workDay'
-method:'get'
-header:{token:string,}
-params:
-{
-  year:number,
-  month:number,
-  day:number,
-}
-
-** response **
-{
-  // 错误码,undefined表示没有错误
-  code?:number,
-  // 错误文本信息,提供给前端调试
-  errMsg?:string,
-  // ==================== 华丽分割线 ==================== 
-  orderList:{
-    name:string,
-  }[],
-  intervalList:{
-    // 上午/下午
-    // 0 表示上午
-    // 1 表示下午
-    type:number,
-    // 工作时间区间,数组长度2,表示从开始到结束
-    interval:{
-      // 小时
-      hour:number,
-      // 分钟
-      minute:number,
-    }[],
-
-  }[]
-}
 
 ## 医生查看某日预约列表
 ** request **
@@ -241,6 +177,71 @@ params:
   errMsg?:string,
   // ==================== 华丽分割线 ==================== 
   
+}
+
+
+## 查看日历
+** request **
+route:'/common/calendar'
+method:'get'
+header:{token:string,}
+params:
+{
+  doctorId:string,
+  year:number,
+  month:number,
+}
+
+** response **
+{
+  // 错误码,undefined表示没有错误
+  // 0 非法的日期
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  info:{
+    // 工作日
+    workDay:number,
+  }[]
+}
+
+
+## 查看某日工作时间细节
+** request **
+route:'/common/workDay'
+method:'get'
+header:{token:string,}
+params:
+{
+  doctorId:string,
+  year:number,
+  month:number,
+  day:number,
+}
+
+** response **
+{
+  // 错误码,undefined表示没有错误
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  
+  intervalList:{
+    // 上午/下午
+    // 0 表示上午
+    // 1 表示下午
+    type:number,
+    // 工作时间区间,数组长度2,表示从开始到结束
+    interval:{
+      // 小时
+      hour:number,
+      // 分钟
+      minute:number,
+    }[],
+
+  }[]
 }
 
 
