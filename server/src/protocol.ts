@@ -287,7 +287,7 @@ export interface IResDoctorList extends IResBase {
 
 // 获取日历
 export interface IReqCalendar {
-  doctorId:string,
+  doctorId: string,
   year: number,
   month: number,
 }
@@ -299,4 +299,32 @@ export interface IResCalendar extends IResBase {
     workDay: number,
   }[],
 }
+
+// 工作日时间细节
+export interface IReqWorkDay {
+
+  doctorId: string,
+  year: number,
+  month: number,
+  day: number,
+}
+
+
+export interface IResWorkDay extends IResBase {
+  intervalList: {
+    // 上午/下午
+    // 0 表示上午
+    // 1 表示下午
+    type: number,
+    // 工作时间区间,数组长度2,表示从开始到结束
+    interval: {
+      // 小时
+      hour: number,
+      // 分钟
+      minute: number,
+    }[],
+
+  }[],
+}
+
 

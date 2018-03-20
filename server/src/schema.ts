@@ -116,13 +116,13 @@ export interface IDoctor {
 
 export interface IWorktime {
   doctorId: string,
-  isCommon:number,
+  isCommon: number,
   year?: number,
   month?: number,
   day?: number,
   type: number,
-  start: number,
-  end: number,
+  start: { hour: number, minute: number, },
+  end: { hour: number, minute: number, },
 }
 
 

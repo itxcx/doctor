@@ -408,7 +408,7 @@ export default class Database {
 
   // 获取医生某月的日历
   async queryCalendar({ doctorId, year, month, }: { doctorId: string, year: number, month: number, }): Promise<Schema.IWorktime[]> {
-    return this.worktimeCollection.find({ isCommon: 0, year, month, doctorId, }).toArray();
+    return this.worktimeCollection.find({ year, month, doctorId, }).toArray();
   }
 
   // 清除日历
@@ -422,6 +422,11 @@ export default class Database {
     let { insertedCount, } = await this.worktimeCollection.insertOne({ doctorId, year, month, day, type, start, end, });
     let flag: boolean = insertedCount == 1;
     return { flag, };
+  }
+
+  // 查看医生某天的工作信息
+  async queryWorkDay({ doctorId, year, month, day, }: { doctorId: string, year: number, month: number, day: number, }): Promise<Schema.IWorktime[]> {
+    return this.worktimeCollection.find({ doctorId, year, month, day, }).toArray();
   }
 
 
