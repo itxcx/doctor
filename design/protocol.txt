@@ -114,6 +114,7 @@ method:'get'
 header:{token:string,}
 params:
 {
+  doctorId:string,
   year:number,
   month:number,
 }
