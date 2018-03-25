@@ -2,9 +2,6 @@
 
 ## 通用错误码code
 > 50 token失效
-> 100 用户尚未绑定
-> 200 当用户操作黑店时,但是有当前黑店没有完成
-> 500 需要超级管理员权限
 
 
 ## 注意事项
@@ -12,7 +9,7 @@
 
 ## 登录
 ** request **
-route:'/login'
+route:'/getToken'
 method:'post'
 header:{}
 params:
@@ -39,7 +36,7 @@ method:'post'
 header:{token:string,}
 params:
 {
-  regCode?:string,
+  regCode:string,
 }
 
 ** response **
@@ -244,6 +241,26 @@ params:
   }[]
 }
 
+## 绑定病人信息
+** request **
+route:'/bindPatient'
+method:'post'
+header:{token:string,}
+params:{
+  name:string,
+}
+
+** response **
+{
+  // 错误码,undefined表示没有错误
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  
+}
+
+
 
 ## 获取病人信息
 ** request **
@@ -316,6 +333,7 @@ params:
 ** response **
 {
   // 错误码,undefined表示没有错误
+  // 0 不存在该预约编号
   code?:number,
   // 错误文本信息,提供给前端调试
   errMsg?:string,
@@ -342,6 +360,7 @@ params:
   // 错误码,undefined表示没有错误
   code?:number,
   // 错误文本信息,提供给前端调试
+  // 0 非法的预约查询类型
   errMsg?:string,
   // ==================== 华丽分割线 ==================== 
   list:{
