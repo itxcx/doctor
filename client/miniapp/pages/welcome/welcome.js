@@ -1,4 +1,5 @@
 // pages/welcome/welcome.js
+const app = getApp();
 Page({
 
   /**
@@ -80,6 +81,13 @@ Page({
     }
     this.setData({
       currentMode,
+    })
+  },
+  enter:function(e){
+    let { doctor } = e.currentTarget.dataset;
+    app.globalData.doctor = doctor;
+    wx.navigateTo({
+      url: `/pages/checkout/checkout?doctor=${doctor}`,
     })
   }
 })

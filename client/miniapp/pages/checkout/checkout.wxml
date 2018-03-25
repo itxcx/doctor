@@ -1,25 +1,27 @@
 <!--pages/checkout/checkout.wxml-->
 <view>
   <view class='header'>
-    <view class='doctor-info'>
+    <view class='doctor-wrapper'>
       <view class='doctor-image'>
         <image src='../../images/user.png'></image>
       </view>
       <view class='doctor-info'>
-          <view class='doctor-name'></view>
+          <view class='doctor-name'>吴建国</view>
           <view class='doctor-company'>
               <text>眼科</text>
               <text>仁爱医院</text>
           </view>
       </view>
     </view>
-    <view class='setting'></view>
+    <view class='setting'>
+      <image src='../../images/settings.png'></image>
+    </view>
   </view>
   <view class='check-date'>
       <view class='current-date'>
-        <view class='prev' data-direction='0' bindtap='change'>《</view>
+        <view class='prev' data-direction='0' bindtap='change'><image src='../../images/prev.png'></image></view>
         <view class='current'>{{year}}-{{month}}</view>
-        <view class='next' data-direction='1' bindtap='change'>》</view>
+        <view class='next' data-direction='1' bindtap='change'><image src='../../images/next.png'></image></view>
       </view>
       <view class='date-header'>
         <view>日</view>
@@ -32,7 +34,10 @@
       </view>
       <view class='date-body'>
         <block wx:for='{{dateList}}'>
-          <view>{{item.value}}</view>
+          <view class='day'>
+            <text class='{{item[1].today?"today":""}} radius'>{{item[1].day}}</text>
+            <view class='{{item[1].isOver?"isOver":""}} status' wx:if='{{item[1].color}}'></view>
+          </view>
         </block>
       </view>
   </view>

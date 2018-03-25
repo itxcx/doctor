@@ -1,6 +1,6 @@
 // pages/checkout/checkout.js
 import {Calendar} from '../../utils/Calendar.js';
-const calendar = new Calendar();
+const calendar = Calendar.getInstance();
 Page({
 
   /**
@@ -74,10 +74,18 @@ Page({
   setDateInfo:function(){
     let {year,month} = calendar;
     let displayDate = new Date(year,month,1);
+    let mock = [1,2,3,10,25,26];
     this.setData({
       year: displayDate.getFullYear(),
       month: this.preZero(displayDate.getMonth()+1),
       dateList: calendar.getDateList()
+    })
+    mock.forEach(el => {
+      calendar.setMapObject(el,{color:'red'})
+    })
+
+    this.setData({
+      dateList: Array.from(calendar.map)
     })
   },
   preZero:function(num){
