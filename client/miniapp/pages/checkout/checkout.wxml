@@ -1,0 +1,42 @@
+<!--pages/checkout/checkout.wxml-->
+<view>
+  <view class='header'>
+    <view class='doctor-info'>
+      <view class='doctor-image'>
+        <image src='../../images/user.png'></image>
+      </view>
+      <view class='doctor-info'>
+          <view class='doctor-name'></view>
+          <view class='doctor-company'>
+              <text>眼科</text>
+              <text>仁爱医院</text>
+          </view>
+      </view>
+    </view>
+    <view class='setting'></view>
+  </view>
+  <view class='check-date'>
+      <view class='current-date'>
+        <view class='prev' data-direction='0' bindtap='change'>《</view>
+        <view class='current'>{{year}}-{{month}}</view>
+        <view class='next' data-direction='1' bindtap='change'>》</view>
+      </view>
+      <view class='date-header'>
+        <view>日</view>
+        <view>一</view>
+        <view>二</view>
+        <view>三</view>
+        <view>四</view>
+        <view>五</view>
+        <view>六</view>
+      </view>
+      <view class='date-body'>
+        <block wx:for='{{dateList}}'>
+          <view>{{item.value}}</view>
+        </block>
+      </view>
+  </view>
+  <view class='picker-list'>
+
+  </view>
+</view>

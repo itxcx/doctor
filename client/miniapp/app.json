@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/checkout/checkout",
     "pages/welcome/welcome",
     "pages/index/index",
     "pages/logs/logs"
-  
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,0 +1,22 @@
+.current-date{
+  width: 460rpx;
+  margin: 0 auto;
+  display: flex;
+  justify-content:space-between;
+}
+.date-header{
+  display: flex;
+  flex-wrap: wrap;
+}
+.date-header view{
+  flex: 7;
+  text-align: center;
+}
+.date-body{
+  display: flex;
+  flex-wrap: wrap;
+}
+.date-body view{
+  width: calc(100%/7);
+  text-align: center;
+}
