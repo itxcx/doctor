@@ -27,45 +27,20 @@ import Database from './db';
 
 // *** 存放一些通用方法 ***
 
-// 获取用户信息
 
-// 获取当前黑店
+// 检测是否合法日期
+let checkDate = (year: number, month: number, day: number, ): boolean => {
+  return (/^\d{4}$/.test(year + '')) &&
+    (/^(1-9|1[0-2])$/.test(month + '')) &&
+    (/^\d{1,2}$/.test(day + '')) &&
+    (new Date(year, month - 1, day)).getMonth() + 1 == month &&
+    (new Date(year, month - 1, day)).getDate() == day
+    ;
 
-// 能否建立黑店
-
-// 能否加入黑店
-
-// check黑店是否过期
-let checkRoomExpires = async (roomId: string): Promise<{ flag: boolean, }> => {
-    let flag: boolean = false;
-    let db = await Database.getIns();
-
-    let { room, } = await db.queryRoom({ roomId, })
-    if (!room) {
-        return { flag, };
-    }
-    let now = Date.now();
-    if (now > room.endTime + config.commentEndTime) {
-        flag = true;
-    }
-
-    return { flag, };
-};
-
-// 定时检测黑店是否过期
-// 检测排名前n名的黑店
-let clearRoomLoop = async (): Promise<void> => {
-    let db = await Database.getIns();
-    let { count, interval } = config.clearRoom;
-    setInterval(() => {
-        let deadline = Date.now();
-        db.clearRoomList({ count, deadline, });
-    }, interval);
 };
 
 let utils = {
-    checkRoomExpires,
-    clearRoomLoop,
+  checkDate,
 };
 
 

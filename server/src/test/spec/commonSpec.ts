@@ -17,6 +17,13 @@ let clearCalendar = async function() {
 let fn: ITestFunc = async function({ db, axi, }) {
   let ret: IResult[] = [];
 
+  // 绑定医生
+  {
+
+  }
+
+  // 绑定患者
+
   // 医生列表
   {
     let route = apiPrefix + 'common/doctorList';

@@ -1,45 +1,112 @@
-// import * as express from 'express';
-// import * as Protocol from '../protocol';
-// import config from '../config';
-// import Database from '../db';
+import * as express from 'express';
+import * as Protocol from '../protocol';
+import config from '../config';
+import Database from '../db';
+import utils from '../utils';
 
+export default function handle(app: express.Express) {
+  // 设置工作时间
+  app.post('/doctor/set/workTime', async (req, res) => {
+    let resData: Protocol.IResSetWorktime;
+    let db = await Database.getIns();
+    let doctorId: string = req.headers['doctorId'] as string;
+    let { time, type, start, end, } = req.body as Protocol.IReqSetWorktime;
 
-// // 设置工作时间
-// // '/doctor/set/workTime'
+    let year: number;
+    let month: number;
+    let day: number;
+    if (time) {
+      year = time.year;
+      month = time.month;
+      day = time.day;
+      let flag = utils.checkDate(year, month, day);
+      if (!flag) {
+        resData = { code: 0, errMsg: '非法的日期设定', };
+        res.json(resData);
+        return;
+      }
 
-// export default function handle(app: express.Express) {
-//   // 获取医生列表
-//   app.get('/common/doctorList', async (req, res) => {
-//     let resData: Protocol.IResDoctorList;
-//     let db = await Database.getIns();
-//     let list = (await db.queryDoctorList()).map(n => {
-//       return {
-//         id: n._id,
-//         hospital: n.hospital,
-//         office: n.office,
-//         name: n.name,
-//       };
-//     });
-//     resData = { list, };
-//     res.json(resData);
-//   });
+    }
 
-//   // 获取某月日历信息
-//   app.get('/common/calendar', async (req, res) => {
-//     let resData: Protocol.IResCalendar;
-//     let { doctorId, year, month, } = req.query as Protocol.IReqCalendar;
-//     let db = await Database.getIns();
-//     let list = await db.queryCalendar({ doctorId, year, month, });
-//     let info: { workDay: number }[] = [];
+    {
+      let flag = [0, 1].indexOf(type) >= 0;
+      if (!flag) {
+        resData = { code: 1, errMsg: '非法的上下午设定', };
+        res.json(resData);
+        return;
+      }
+    }
 
-//     list.forEach(n => {
-//       let { day, } = n;
-//       if (!info.some(n => n.workDay == day)) {
-//         info.push({ workDay: day, });
-//       }
-//     });
+    {
+      // 分钟在0或者30
+      // 上午时钟在0-12
+      // 下午时钟在12-24
+      // 上午时间在00:00 - 12:00
+      // 下午时间在12:00 - 24:00
+      type timeType = { hour: number, minute: number, };
+      let calc = (val: timeType): number => val.hour * 100 + val.minute;
+      let check = (start: timeType, end: timeType, min: timeType, max: timeType): boolean => {
+        let startValue = calc(start);
+        let endValue = calc(end);
+        let minValue = calc(min);
+        let maxValue = calc(max);
+        return minValue <= startValue &&
+          startValue < endValue &&
+          endValue <= maxValue;
 
-//     resData = { info, };
-//     res.json(resData);
-//   });
-// };
+      };
+      let flag = [start.minute, end.minute].every(n => [0, 30].indexOf(n) >= 0) &&
+        (type == 0 ? [start.hour, end.hour].every(n => n >= 0 && n <= 12) : true) &&
+        (type == 1 ? [start.hour, end.hour].every(n => n >= 12 && n <= 24) : true) &&
+        (type == 0 ? check(start, end, { hour: 0, minute: 0 }, { hour: 12, minute: 0 }, ) : true) &&
+        (type == 1 ? check(start, end, { hour: 12, minute: 0 }, { hour: 24, minute: 0 }, ) : true)
+        ;
+      if (!flag) {
+        resData = { code: 2, errMsg: '非法的工作时间区间设定' };
+        res.json(resData);
+        return;
+      }
+    }
+
+    {
+      if (time) {
+        // 取今天零点
+        let today = new Date();
+        today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        let target = new Date(time.year, time.month - 1, time.day);
+        if (target.getTime() < today.getTime()) {
+          resData = { code: 3, errMsg: '过去的日子无法设定', };
+          res.json(resData);
+          return;
+        }
+      }
+    }
+
+    let { flag, } = await db.insertCalendar({ doctorId, year, month, day, type, start, end, });
+
+    res.json({});
+  });
+
+  // 获取病人列表
+  app.get('/doctor/list', async (req, res) => {
+    let resData: Protocol.IResPatientList;
+    let doctorId: string = req.headers['doctorId'] as string;
+
+    let year = req.query['year'] - 0;
+    let month = req.query['month'] - 0;
+    let day = req.query['day'] - 0;
+
+    let db = await Database.getIns();
+    let list: any[] = await db.queryPatientList({ doctorId, year, month, day, });
+    for (let i = 0; i < list.length; i++) {
+      let li = list[i];
+      let patient = await db.queryPatient({ patientId: li.patientId, });
+      li.name = patient.name;
+    }
+
+    let list0 = list.filter(n => n.type == 0).map(n => ({ name: n.name }));
+    let list1 = list.filter(n => n.type == 1).map(n => ({ name: n.name }));
+    resData.list = [list0, list1,];
+    res.json(resData);
+  });
+};

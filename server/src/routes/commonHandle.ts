@@ -54,7 +54,7 @@ export default function handle(app: express.Express) {
     let year = req.query['year'] - 0;
     let month = req.query['month'] - 0;
     let day = req.query['day'] - 0;
-    
+
     let db = await Database.getIns();
     let list = await db.queryWorkDay({ doctorId, year, month, day, });
 
@@ -67,6 +67,49 @@ export default function handle(app: express.Express) {
 
     res.json(resData);
   });
+
+
+  // 绑定医生信息
+  app.post('/bind', async (req, res) => {
+    let resData: Protocol.IResBind;
+    let { regCode, } = req.body as Protocol.IReqBind;
+    let openId: string = req.headers['openId'] as string;
+
+    let db = await Database.getIns();
+    let { flag, } = await db.bindDoctor({ openId, regCode, });
+
+    if (!flag) {
+      resData = { code: 0, errMsg: '不存在该医生信息', };
+      res.json(resData);
+      return;
+    }
+
+    res.json(resData);
+  });
+
+
+  // 绑定病人信息
+  app.post('/bindPatient', async (req, res) => {
+    let resData: Protocol.IResBindPatient;
+    let { name, } = req.body as Protocol.IReqBindPatient;
+    let openId: string = req.headers['openId'] as string;
+
+    let db = await Database.getIns();
+
+    let { flag, } = await db.insertPatient({ openId, name, });
+
+    if (!flag) {
+      resData = { code: 0, errMsg: '数据库失误', };
+      res.json(resData);
+      return;
+    }
+    
+    resData = {};
+    res.json(resData);
+
+  });
+
+
 
 
 };

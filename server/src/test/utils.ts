@@ -29,22 +29,6 @@ export async function getOpenId(axi: axiosNs.AxiosInstance, ): Promise<string> {
   return data.openId;
 }
 
-export async function createUser(axi: axiosNs.AxiosInstance, dotaId: string): Promise<void> {
-  await axi.post(apiPrefix + 'bind', { dotaId, } as Protocol.IReqBind) as { data: Protocol.IResBind };
-
-}
-
-export async function createAdmin(userName: string, password: string, ): Promise<axiosNs.AxiosInstance> {
-  let axi = axiosNs.default.create();
-  let url = apiPrefix + 'admin/login';
-  let { data, } = await axi.post(url, { userName, password, }) as { data: Protocol.IResAdminLogin, };
-
-  axi.interceptors.request.use(cfg => {
-    cfg.headers['token'] = data.token;
-    return cfg;
-  });
-  return axi;
-}
 
 
 
