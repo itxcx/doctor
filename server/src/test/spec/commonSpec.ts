@@ -19,10 +19,34 @@ let fn: ITestFunc = async function({ db, axi, }) {
 
   // 绑定医生
   {
+    let doctorInfo = { hospital: '熊猫医院', office: '眼科', name: 'tongpuman', regCode: 'tongpuman', };
+    // await db.insertDoctor(doctorInfo);
+    await db.insert('doctor', doctorInfo);
+
+    let route = apiPrefix + 'bind';
+    let rightCode = 'tongpuman';
+    let wrongCode = 'jinpuman';
+    let { data: data0, } = await axi.post(route, { regCode: wrongCode, }) as { data: Protocol.IResBind };
+    let { data: data1, } = await axi.post(route, { regCode: rightCode, }) as { data: Protocol.IResBind };
+    ret.push({ title: '绑定医生', expect: [0, undefined], calc: [data0.code, data1.code,] });
+
+    await db.remove('doctor', doctorInfo);
 
   }
 
   // 绑定患者
+  {
+    let patientInfo = { name: '童金乐', };
+    let route = apiPrefix + 'bindPatient';
+    await axi.post(route, patientInfo) as { data: Protocol.IResBindPatient };
+
+    let data = await db.query('patient', patientInfo);
+    let patientName = data[0].name;
+    ret.push({ title: '绑定患者', expect: '童金乐', calc: patientName, });
+
+    await db.remove('patient', patientInfo);
+
+  }
 
   // 医生列表
   {

@@ -33,6 +33,7 @@ enum eStatus {
 export default class Database {
   private connectStr: string;
   private db: mongodb.Db;
+  private currDb: mongodb.Db;
 
   //
   private doctorCollection: mongodb.Collection<Schema.IDoctor>;
@@ -68,7 +69,7 @@ export default class Database {
     this.status = eStatus.open;
     // console.log({db:!!this.db});
 
-    let currDb = this.db.db('doctor');
+    let currDb = this.currDb = this.db.db('doctor');
     //
     this.doctorCollection = currDb.collection('doctor');
     this.worktimeCollection = currDb.collection('worktime');
@@ -84,12 +85,27 @@ export default class Database {
 
 
   // ============ 查询 ============
+  async query(collectionName: string, query: {}):Promise<any>{
+    return this.currDb.collection(collectionName).find(query).toArray();
+  }
+
+  async insert(collectionName: string, data: {}, ): Promise<void> {
+    await this.currDb.collection(collectionName).insert(data);
+  }
+
+  async update(collectionName: string, query: {}, update: {}, ): Promise<void> {
+    await this.currDb.collection(collectionName).update(query, update);
+  }
+
+  async remove(collectionName: string, query: {}, ): Promise<void> {
+    await this.currDb.collection(collectionName).remove(query);
+  }
 
 
   // *** common ***
   async insertDoctor({ hospital, office, name, regCode, }: { hospital: string, office: string, name: string, regCode: string, }): Promise<{ flag: boolean, }> {
     let flag = true;
-    let { insertedCount } = await this.doctorCollection.insertOne({ hospital, office, name, regCode, });
+    let { insertedCount, } = await this.doctorCollection.insertOne({ hospital, office, name, regCode, });
     flag = insertedCount == 1;
     return { flag, };
   }
@@ -101,11 +117,14 @@ export default class Database {
     return { flag, };
   }
 
+
+
+
   // 绑定医生
   async bindDoctor({ openId, regCode, }: { openId: string, regCode: string, }): Promise<{ flag: boolean, }> {
     let flag = true;
-    let { ok, } = await this.doctorCollection.findOneAndUpdate({ code: regCode, }, { $set: { openId, } });
-    flag = ok === 1;
+    let { modifiedCount, } = await this.doctorCollection.updateOne({ regCode, }, { $set: { openId, } });
+    flag = modifiedCount === 1;
     return { flag, };
   }
 

@@ -12,7 +12,7 @@
 
 ## 登录
 ** request **
-route:'/login'
+route:'/getToken'
 method:'post'
 header:{}
 params:
