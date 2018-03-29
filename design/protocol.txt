@@ -74,20 +74,23 @@ params:
     month:number,
     day:number,
   },
-  intervalList:{
+  // 上午/下午
+  // 0 表示上午
+  // 1 表示下午
+  type: number,
+  start: {
+    // 小时
+    hour: number,
+    // 分钟
+    minute: number,
+  },
+  end: {
+    // 小时
+    hour: number,
+    // 分钟
+    minute: number,
 
-    // 上午/下午
-    // 0 表示上午
-    // 1 表示下午
-    type:number,
-    // 工作时间区间,数组长度2,表示从开始到结束
-    interval:{
-      // 小时
-      hour:number,
-      // 分钟
-      minute:number,
-    }[],
-  }[]
+  }
 }
 
 ** response **
@@ -264,7 +267,7 @@ params:{
 
 ## 获取病人信息
 ** request **
-route:'patient/info'
+route:'/patientInfo'
 method:'get'
 header:{token:string,}
 params:
@@ -275,6 +278,7 @@ params:
 ** response **
 {
   // 错误码,undefined表示没有错误
+  // 0 没有该病人信息
   code?:number,
   // 错误文本信息,提供给前端调试
   errMsg?:string,

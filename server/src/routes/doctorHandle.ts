@@ -104,9 +104,11 @@ export default function handle(app: express.Express) {
       li.name = patient.name;
     }
 
+
     let list0 = list.filter(n => n.type == 0).map(n => ({ name: n.name }));
     let list1 = list.filter(n => n.type == 1).map(n => ({ name: n.name }));
-    resData.list = [list0, list1,];
+    resData = { list: [list0, list1,]};
     res.json(resData);
+
   });
 };

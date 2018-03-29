@@ -67,7 +67,6 @@ export default class Database {
   async open() {
     this.db = (await mongodb.MongoClient.connect(this.connectStr));
     this.status = eStatus.open;
-    // console.log({db:!!this.db});
 
     let currDb = this.currDb = this.db.db('doctor');
     //
@@ -85,8 +84,12 @@ export default class Database {
 
 
   // ============ 查询 ============
-  async query(collectionName: string, query: {}):Promise<any>{
-    return this.currDb.collection(collectionName).find(query).toArray();
+  async queryOne(collectionName: string, query: {}): Promise<any> {
+    return await this.currDb.collection(collectionName).findOne(query);
+  }
+
+  async query(collectionName: string, query: {}): Promise<any> {
+    return await this.currDb.collection(collectionName).find(query).toArray();
   }
 
   async insert(collectionName: string, data: {}, ): Promise<void> {
@@ -98,7 +101,7 @@ export default class Database {
   }
 
   async remove(collectionName: string, query: {}, ): Promise<void> {
-    await this.currDb.collection(collectionName).remove(query);
+    await this.currDb.collection(collectionName).remove(query, { single: false, });
   }
 
 
@@ -131,14 +134,14 @@ export default class Database {
   // 绑定患者
   async insertPatient({ openId, name, }: { openId: string, name: string, }): Promise<{ flag: boolean, }> {
     let flag = true;
-    let { insertedCount } = await this.patientCollection.insertOne({ name, });
+    let { insertedCount } = await this.patientCollection.insertOne({ name, openId, });
     flag = insertedCount == 1;
     return { flag, };
   }
 
   async removePatient({ doctorId, }: { doctorId: string, }): Promise<{ flag: boolean, }> {
     let flag = true;
-    let { ok, } = await this.patientCollection.findOneAndDelete({ id: new mongodb.ObjectId(doctorId), });
+    let { ok, } = await this.patientCollection.findOneAndDelete({ _id: new mongodb.ObjectId(doctorId), });
     flag = ok === 1;
     return { flag, };
   }
@@ -215,7 +218,7 @@ export default class Database {
 
   // *** patient ***
   async queryPatient({ patientId, }: { patientId: string, }): Promise<Schema.IPatient> {
-    return this.patientCollection.findOne({ patientId, });
+    return this.patientCollection.findOne({ _id: new mongodb.ObjectId(patientId), });
   }
 
 

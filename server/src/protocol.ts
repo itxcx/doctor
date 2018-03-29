@@ -49,7 +49,7 @@ export interface IResOpenId extends IResBase {
 
 // 绑定医生
 export interface IReqBind {
-  regCode:string,
+  regCode: string,
 }
 
 
@@ -69,7 +69,7 @@ export interface IResBind extends IResBase {
 
 // 绑定患者
 export interface IReqBindPatient {
-  name:string,
+  name: string,
 }
 
 
@@ -149,7 +149,6 @@ export interface IReqSetWorktime {
   // 0 表示上午
   // 1 表示下午
   type: number,
-  // 工作时间区间,数组长度2,表示从开始到结束
   start: {
     // 小时
     hour: number,
@@ -248,3 +247,40 @@ export interface IResOrderList extends IResBase {
     type: number,
   }[]
 }
+
+
+// 获取医生信息
+export interface IReqDoctorInfo {
+
+}
+
+
+export interface IResDoctorInfo extends IResBase {
+  info?: {
+
+    // 医生编号
+    id: string,
+
+    // 医院
+    hospital: string,
+    // 科室
+    office: string,
+    // 医生姓名
+    name: string,
+  }
+}
+
+// 获取病人信息
+export interface IReqPatientInfo {
+
+}
+
+
+export interface IResPatientInfo extends IResBase {
+  info?: {
+    name?: string,
+
+  }
+}
+
+

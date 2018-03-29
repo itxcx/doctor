@@ -95,7 +95,7 @@ export default function handle(app: express.Express) {
     let openId: string = req.headers['openId'] as string;
 
     let db = await Database.getIns();
-
+    console.log('绑定病人信息', openId, name);
     let { flag, } = await db.insertPatient({ openId, name, });
 
     if (!flag) {
@@ -103,11 +103,52 @@ export default function handle(app: express.Express) {
       res.json(resData);
       return;
     }
-    
+
+    console.log('病人表:', await db.query('patient', {}));
+
     resData = {};
     res.json(resData);
 
   });
+
+  // 获取医生信息
+  app.get('/doctorInfo', async (req, res) => {
+    let resData: Protocol.IResDoctorInfo;
+    let openId: string = req.headers['openId'] as string;
+
+    let db = await Database.getIns();
+    let info = await db.queryOne('doctor', { openId, });
+
+    if (!info) {
+      resData = { code: 0, errMsg: '没有相关医生信息', };
+      res.json(resData);
+      return;
+    }
+
+    resData = { info, };
+    res.json(resData);
+
+  });
+
+  app.get('/patientInfo', async (req, res) => {
+    let resData: Protocol.IResPatientInfo;
+    let openId: string = req.headers['openId'] as string;
+
+    let db = await Database.getIns();
+    let info = await db.queryOne('patient', { openId, });
+    console.log('病人信息的openId', openId);
+    if (!info) {
+      resData = { code: 0, errMsg: '没有相关病人信息', };
+      res.json(resData);
+      return;
+    }
+
+    resData = { info, };
+    res.json(resData);
+
+  });
+
+
 
 
 

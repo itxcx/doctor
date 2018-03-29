@@ -4,7 +4,7 @@ import config from '../../config';
 import * as qs from 'querystring';
 import * as Protocol from '../../protocol';
 import { ITestFunc, IResult } from '../ItestFunc';
-import { } from '../utils';
+import * as utils from '../utils';
 
 
 let { apiPrefix, } = config;
@@ -19,6 +19,8 @@ let fn: ITestFunc = async function({ db, axi, }) {
 
   // 绑定医生
   {
+    await utils.clearAll();
+
     let doctorInfo = { hospital: '熊猫医院', office: '眼科', name: 'tongpuman', regCode: 'tongpuman', };
     // await db.insertDoctor(doctorInfo);
     await db.insert('doctor', doctorInfo);
@@ -30,12 +32,13 @@ let fn: ITestFunc = async function({ db, axi, }) {
     let { data: data1, } = await axi.post(route, { regCode: rightCode, }) as { data: Protocol.IResBind };
     ret.push({ title: '绑定医生', expect: [0, undefined], calc: [data0.code, data1.code,] });
 
-    await db.remove('doctor', doctorInfo);
 
   }
 
   // 绑定患者
   {
+    await utils.clearAll();
+
     let patientInfo = { name: '童金乐', };
     let route = apiPrefix + 'bindPatient';
     await axi.post(route, patientInfo) as { data: Protocol.IResBindPatient };
@@ -44,12 +47,15 @@ let fn: ITestFunc = async function({ db, axi, }) {
     let patientName = data[0].name;
     ret.push({ title: '绑定患者', expect: '童金乐', calc: patientName, });
 
-    await db.remove('patient', patientInfo);
 
   }
 
   // 医生列表
   {
+    await utils.clearAll();
+    let doctorInfo = { hospital: '熊猫医院', office: '眼科', name: 'tongpuman', regCode: 'tongpuman', };
+    await db.insert('doctor', doctorInfo);
+
     let route = apiPrefix + 'common/doctorList';
     let { data, } = await axi.get(route) as { data: Protocol.IResDoctorList };
     ret.push({ title: '获取医生列表', expect: [, true], calc: [data.code, data.list.length != 0], });
@@ -59,7 +65,8 @@ let fn: ITestFunc = async function({ db, axi, }) {
 
   // 获取医生的日历
   {
-    await clearCalendar();
+    await utils.clearAll();
+
     let db = await Database.getIns();
 
     let doctorId: string = 'a12345678';
@@ -88,13 +95,12 @@ let fn: ITestFunc = async function({ db, axi, }) {
 
     }
 
-    await clearCalendar();
 
   };
 
   // 获取医生某天的工作时间
   {
-    await clearCalendar();
+    await utils.clearAll();
     let db = await Database.getIns();
 
     let doctorId: string = 'a12345678';
@@ -130,7 +136,6 @@ let fn: ITestFunc = async function({ db, axi, }) {
 
 
 
-    await clearCalendar();
 
   }
 

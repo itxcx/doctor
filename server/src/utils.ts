@@ -31,7 +31,7 @@ import Database from './db';
 // 检测是否合法日期
 let checkDate = (year: number, month: number, day: number, ): boolean => {
   return (/^\d{4}$/.test(year + '')) &&
-    (/^(1-9|1[0-2])$/.test(month + '')) &&
+    (/^([1-9]|1[0-2])$/.test(month + '')) &&
     (/^\d{1,2}$/.test(day + '')) &&
     (new Date(year, month - 1, day)).getMonth() + 1 == month &&
     (new Date(year, month - 1, day)).getDate() == day
