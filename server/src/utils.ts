@@ -39,8 +39,17 @@ let checkDate = (year: number, month: number, day: number, ): boolean => {
 
 };
 
+let isPastTime = (year: number, month: number, day: number, ):boolean=>{
+  let today = new Date();
+  today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  let target = new Date(year, month - 1, day);
+  return (target.getTime() < today.getTime());
+
+};
+
 let utils = {
   checkDate,
+  isPastTime,
 };
 
 

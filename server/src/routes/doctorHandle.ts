@@ -6,7 +6,7 @@ import utils from '../utils';
 
 export default function handle(app: express.Express) {
   // 设置工作时间
-  app.post('/doctor/set/workTime', async (req, res) => {
+  app.post('/doctor/set/worktime', async (req, res) => {
     let resData: Protocol.IResSetWorktime;
     let db = await Database.getIns();
     let doctorId: string = req.headers['doctorId'] as string;
@@ -71,10 +71,7 @@ export default function handle(app: express.Express) {
     {
       if (time) {
         // 取今天零点
-        let today = new Date();
-        today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        let target = new Date(time.year, time.month - 1, time.day);
-        if (target.getTime() < today.getTime()) {
+        if (utils.isPastTime(time.year,time.month,time.day)) {
           resData = { code: 3, errMsg: '过去的日子无法设定', };
           res.json(resData);
           return;

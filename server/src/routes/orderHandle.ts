@@ -17,7 +17,7 @@ export default function handle(app: express.Express) {
 
     // 0 非法的日期信息
     {
-      let flag = utils.checkDate(year, month, day);
+      let flag = utils.checkDate(year, month, day) && !utils.isPastTime(year, month, day);
       if (!flag) {
         resData = { code: 0, errMsg: '非法的日期信息', };
         res.json(resData);
@@ -40,6 +40,16 @@ export default function handle(app: express.Express) {
       let doctor = await db.queryDoctor({ doctorId: id, });
       if (!doctor) {
         resData = { code: 2, errMsg: '不存在的医生编号' };
+        res.json(resData);
+        return;
+      }
+    }
+
+    // 3 不在医生的就诊时间
+    {
+      let worktime = await db.queryOne('worktime', { doctorId, year, month, day, type, });
+      if (!worktime) {
+        resData = { code: 3, errMsg: '不在医生的就诊时间', };
         res.json(resData);
         return;
       }

@@ -18,7 +18,7 @@ let fn: ITestFunc = async function({ db, axi, }) {
   {
     await utils.clearAll();
 
-    let route = apiPrefix + 'doctor/set/workTime';
+    let route = apiPrefix + 'doctor/set/worktime';
     let body: Protocol.IReqSetWorktime;
     let validBody: Protocol.IReqSetWorktime = { type: 0, start: { hour: 9, minute: 30, }, end: { hour: 11, minute: 0, }, };
 
@@ -91,7 +91,7 @@ let fn: ITestFunc = async function({ db, axi, }) {
     let doctorId: string = (await db.query('doctor', doctorInfo))[0]._id.toString();
 
     // 2020-1-1 8:00 - 12:00
-    await db.insert('worktime', { doctorId, time: { year: 2020, month: 1, day: 1, }, type: 0, start: { hour: 8, minute: 0, }, end: { hour: 12, minute: 0, } });
+    await db.insert('worktime', { doctorId, year: 2020, month: 1, day: 1, type: 0, start: { hour: 8, minute: 0, }, end: { hour: 12, minute: 0, } });
 
     // order
     let patientInfoList: { name: string }[] = [{ name: 'jianghuchuan-kenan', }, { name: 'maoli-lan', }, { name: 'maoli-xiaowulang', }];
@@ -122,7 +122,7 @@ let fn: ITestFunc = async function({ db, axi, }) {
     {
       params = { year: 2020, month: 1, day: 1, };
       let { data, } = await doctorAxi.get(route, { params, }) as { data: Protocol.IResPatientList, };
-      ret.push({ title: '成功查询到患者列表', expect: [2, 1], calc: data.list.map(n => n.length), });
+      ret.push({ title: '成功查询到患者列表', expect: [2, 0], calc: data.list.map(n => n.length), });
     }
 
     {

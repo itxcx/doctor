@@ -115,8 +115,8 @@ export default class Database {
 
   async removeDoctor({ doctorId, }: { doctorId: string, }): Promise<{ flag: boolean, }> {
     let flag = true;
-    let { ok, } = await this.doctorCollection.findOneAndDelete({ id: new mongodb.ObjectId(doctorId), });
-    flag = ok === 1;
+    let { deletedCount, } = await this.doctorCollection.deleteOne({ id: new mongodb.ObjectId(doctorId), });
+    flag = deletedCount === 1;
     return { flag, };
   }
 
@@ -198,7 +198,8 @@ export default class Database {
   // 预约
   async insertOrder({ doctorId, patientId, year, month, day, type, }: { doctorId: string, patientId: string, year: number, month: number, day: number, type: number, }): Promise<{ flag: boolean }> {
     let flag: boolean = true;
-    let { insertedCount, } = await this.orderCollection.insertOne({ doctorId, patientId, year, month, day, type, });
+    let time = new Date(year, month - 1, day);
+    let { insertedCount, } = await this.orderCollection.insertOne({ doctorId, patientId, year, month, day, type,time, });
     flag = insertedCount == 1;
     return { flag, };
   }
@@ -206,14 +207,20 @@ export default class Database {
   // 取消预约
   async removeOrder({ orderId, }: { orderId: string, }): Promise<{ flag: boolean, }> {
     let flag: boolean = true;
-    let { ok, } = await this.orderCollection.findOneAndDelete({ _id: new mongodb.ObjectId(orderId) });
-    flag = ok === 1;
+    let { deletedCount, } = await this.orderCollection.deleteOne({ _id: new mongodb.ObjectId(orderId) });
+    flag = deletedCount === 1;
     return { flag, };
   }
 
   // 查看自己的所有预约
   async queryOrderList({ patientId, type, }: { patientId: string, type: number, }): Promise<Schema.IOrder[]> {
-    return this.orderCollection.find({ patientId, type, }).toArray();
+    if (type == 0) {
+      return this.orderCollection.find({ patientId, }).toArray();
+
+    } else if (type == 1) {
+      let time = new Date();
+      return this.orderCollection.find({ patientId, time: { $gte: time, } }).toArray();
+    }
   }
 
   // *** patient ***

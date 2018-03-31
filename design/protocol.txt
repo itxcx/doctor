@@ -62,7 +62,7 @@ params:
 
 ## 设置工作时间
 ** request **
-route:'/doctor/set/workTime'
+route:'/doctor/set/worktime'
 method:'get'
 header:{token:string,}
 params:

@@ -12,6 +12,7 @@ import * as utils from './utils';
 let dir = path.resolve(__dirname, './spec');
 // console.log(dir);
 let files = glob.sync(dir + '/**/?(common|doctor|patient)[sS]pec.js');
+// let files = glob.sync(dir + '/**/?(doctor)[sS]pec.js');
 console.log('files:', files);
 
 // files = filter('itemSpec');
