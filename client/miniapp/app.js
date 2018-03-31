@@ -1,7 +1,12 @@
 //app.js
+import { mock } from './utils/mock.js';
+import { api } from './utils/api/index.js';
+import { CONFIG } from './utils/config/index.js';
+import { ajax}  from './utils/util.js'
 App({
   onLaunch: function () {
     // 展示本地存储能力
+    mock.test();
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
@@ -32,8 +37,29 @@ App({
         }
       }
     })
+    this.getToken();
   },
+  getToken: function () {
+    let url = api.login();
+    wx.login({
+      success: res => {
+        let data = { code: res.code }
+        mock.request({
+          url: url,
+          data,
+          success: res => {
+            if (res.code == CONFIG.ERR_OK){
+              let { token } = res;
+              wx.setStorageSync('token', token);
+            }
+          }
+        })
+      }
+    })
+  },
+  ajax,
   globalData: {
-    userInfo: null
+    userInfo: null,
+   
   }
 })

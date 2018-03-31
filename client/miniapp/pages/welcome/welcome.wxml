@@ -1,7 +1,7 @@
 <!--pages/welcome/welcome.wxml-->
 <view class='wrapper' style="width:{{windowWidth}}px;hegiht:{{windowHeight}}px">
   <view class='user-image'>
-    <image src='../../images/user.png'></image>
+    <image src='{{userInfo.avatarUrl}}'></image>
   </view>
   <view class='login-mode'>
     <view class="mode-wrapper {{currentMode=='doctor'?'active':''}}" bindtap='loginMode'>
@@ -22,7 +22,7 @@
       点击进入
     </view> 
     <view class='doctor-button' wx:else>
-      <input placeholder='请输入密码' placeholder-class='placeholder-class'></input>
+      <input placeholder='请输入密码' placeholder-class='placeholder-class' bindinput='bindKeyInput'></input>
       <view class='enter' bindtap='enter' data-doctor='1'>进入</view>
     </view>
   </view>
