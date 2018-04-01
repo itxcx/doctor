@@ -92,29 +92,48 @@ Page({
     })
   },
   enter: function (e) {
-    let { doctor } = e.currentTarget.dataset;
-    app.globalData.doctor = doctor;
-    if (doctor) {
-      if (!this.data.value) {
-        return wx.showToast({
-          icon:'loading',
-          title: '请输入密钥',
-        })
-      } else {
-        let url = api.bind();
-        let data = {
-          regCode:this.data.value
-        }
-        app.ajax({
-          url,
-          data,
-        }).then(res=>{
-          console.log(res);
-        })
-      }
+    let isDoc = this.checkIsdoc(e);
+    app.globalData.isDoc = isDoc;
+    if(isDoc){
+      this.onJumpisDoc()
+    }else{
+      this.onJumpisNoDoc();
     }
+  },
+  checkIsdoc:function(e){
+    let { doctor } = e.currentTarget.dataset;
+    return doctor == 1;
+  },
+  onJumpisDoc:function(){
+    if (!this.data.value) {
+      return wx.showToast({
+        icon: 'loading',
+        title: '请输入密钥',
+      })
+    } else {
+      let url = api.bind();
+      let data = {
+        regCode: this.data.value
+      }
+      app.ajax({
+        url,
+        data,
+      }).then(res => {
+        wx.navigateTo({
+          url: `/pages/checkout/checkout?docotr=1`,
+        })
+      }).catch(err=>{
+        if(err.errMsg){
+          wx.showToast({
+            title: err.errMsg,
+          })
+        }
+      })
+    }
+  },
+  onJumpisNoDoc:function(){
     wx.navigateTo({
-      url: `/pages/checkout/checkout?doctor=${doctor}`,
+      url: `/pages/choose/choose`,
     })
   },
   bindKeyInput: function (e) {

@@ -3,7 +3,8 @@
     "pages/welcome/welcome",
     "pages/checkout/checkout",
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/choose/choose"
   ],
   "window": {
     "backgroundTextStyle": "light",

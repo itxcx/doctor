@@ -1,0 +1,30 @@
+<!--pages/choose/choose.wxml-->
+<view>
+  <view class='category-title'>选择你想要查找的医生</view>
+  <view class='category-list'>
+    <view class='category-level'>
+      <view class='label'>医院</view>
+      <view class='value'>
+        <view class='select'></view>
+        <view class='button'></view>
+      </view>
+    </view>
+    <view class='category-level'>
+      <view class='label'>科室</view>
+      <view class='value'>
+        <view class='select'></view>
+        <view class='button'></view>
+      </view>
+    </view>
+    <view class='category-level'>
+      <view class='label'>医生</view>
+      <view class='value'>
+        <view class='select'></view>
+        <view class='button'></view>
+      </view>
+    </view>
+  </view>
+  <view class='confrim'>
+    确认
+  </view>
+</view>
