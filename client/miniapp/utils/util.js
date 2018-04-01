@@ -29,10 +29,10 @@ const ajax=( options )=>{
     mock.request({
       url, header, data,
       success: res => {
-        if(res.code){
-          reject(res);
+        if(res.code===undefined){
+          resolve(res);
         }else{
-          resolve(res);       
+          reject(res);    
         }
       },
       fail: err => {

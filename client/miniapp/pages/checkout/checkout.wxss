@@ -104,3 +104,20 @@ page{
 .today{
   background: #f5f5f5;
 }
+.rule{
+  width: 200rpx;
+  height: 2rpx;
+  margin: 0 auto;
+  background: #4083ff;
+  position: absolute;
+}
+.left{
+  width: 20rpx;
+  height: 20rpx;
+  background: red;
+}
+.right{
+  width: 20rpx;
+  height: 20rpx;
+  background: green
+}

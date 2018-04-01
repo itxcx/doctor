@@ -4,7 +4,8 @@
     "pages/checkout/checkout",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/choose/choose"
+    "pages/choose/choose",
+    "pages/order/order"
   ],
   "window": {
     "backgroundTextStyle": "light",

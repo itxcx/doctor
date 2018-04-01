@@ -1,6 +1,8 @@
 // pages/checkout/checkout.js
 import {Calendar} from '../../utils/Calendar.js';
+import {api} from '../../utils/api/index.js';
 const calendar = Calendar.getInstance();
+const app = getApp();
 Page({
 
   /**
@@ -25,7 +27,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
   },
 
   /**
@@ -78,18 +79,29 @@ Page({
   setDateInfo:function(){
     let {year,month} = calendar;
     let displayDate = new Date(year,month,1);
-    let mock = [1,2,3,10,25,26];
-    this.setData({
-      year: displayDate.getFullYear(),
-      month: this.preZero(displayDate.getMonth()+1),
-      dateList: calendar.getDateList()
-    })
-    mock.forEach(el => {
-      calendar.setMapObject(el,{color:'red'})
-    })
+    let data = {
+      year,
+      month:month+1,
+      doctorId: this.data.doctorId,
+    }
+    let url = api.calendar();
+    app.ajax({
+      url,
+      data
+    }).then(res=>{
+      let { workDay } = res.info;
+      this.setData({
+        year: displayDate.getFullYear(),
+        month: this.preZero(displayDate.getMonth() + 1),
+        dateList: calendar.getDateList()
+      })
+      workDay.forEach(el => {
+        calendar.setMapObject(el, { color: 'red' })
+      })
 
-    this.setData({
-      dateList: Array.from(calendar.map)
+      this.setData({
+        dateList: Array.from(calendar.map)
+      })
     })
   },
   preZero:function(num){
@@ -98,5 +110,12 @@ Page({
       n=`0${n}`
     }
     return n;
+  },
+  leftchange:function(e){
+    let {x} = e.detail
+    console.log(x);
+    this.setData({
+      x1:{x:x}
+    })
   }
 })

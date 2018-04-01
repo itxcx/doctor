@@ -8,7 +8,7 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.1",
+	"libVersion": "1.9.93",
 	"appid": "wx78e8934b88e1cd61",
 	"projectname": "miniapp",
 	"condition": {
@@ -20,13 +20,30 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 1,
+			"list": [
+				{
+					"id": -1,
+					"name": "确认",
+					"pathName": "pages/checkout/checkout",
+					"query": "doctor=0&doctorId=1"
+				},
+				{
+					"id": -1,
+					"name": "订单",
+					"pathName": "pages/order/order",
+					"query": ""
+				}
+			]
 		}
 	}
 }

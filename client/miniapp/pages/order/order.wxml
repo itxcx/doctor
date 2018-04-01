@@ -1,0 +1,20 @@
+<view>
+  <view class='title'>
+    <view class='next'></view>
+    <view class='title-info'>我的预约列表</view>
+    <view class='action'>全部预约</view>
+  </view>
+ <view class='order-list'>
+      <view class='order-day {{index==list.length-1?"last":""}}' wx:for='{{list}}' wx:key="{{item.id}}">
+        <view class='icon'></view>
+        <view class='value'>
+          <view class='data'>{{item.type===0?'上午':'下午'}} {{item.year}}-{{item.month}}-{{item.day}}</view>
+          <view class='category'>
+            <view class='name'>{{item.name}}</view>
+            <view class='office'>{{item.office}}</view>
+            <view class='hospital'>{{item.hospital}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+</view>
