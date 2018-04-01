@@ -35,8 +35,11 @@ page{
 .category-level .value .select{
   width: 452rpx;
   height: 94rpx;
+  text-indent: 2em;
+  line-height: 94rpx;
   background-color: #fff;
   opacity: 0.8;
+  color: #f5a623;
 }
 .category-level .value .button{
   width: 94rpx;

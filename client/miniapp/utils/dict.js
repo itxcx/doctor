@@ -39,6 +39,34 @@ export const dict = {
         name: '科室',
       }}
     }
+  },
+
+  [api.doctorList()]:(data,header)=>{
+    if(header&&header.token){
+      return {
+        list: [{
+          id: 1,
+          hospital: '医院一',
+          office: '科室一',
+          name: '医生一'
+        },{
+            id: 2,
+            hospital: '医院二',
+            office: '科室二',
+            name: '医生二'
+        },{
+            id: 1,
+            hospital: '医院一',
+            office: '科室一',
+            name: '医生二'
+        }]
+      }
+    }else{
+      return {
+        code: "1",
+        errMsg: "regCode错误",
+      }
+    }
   }
 }
 
