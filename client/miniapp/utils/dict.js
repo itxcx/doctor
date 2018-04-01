@@ -88,7 +88,7 @@ export const dict = {
   },
 
   [api.orderList()]: (params, header) => {
-    if (params && params.type && header && header.token) {
+    if (params && params.type==1 && header && header.token) {
       return {
         list: [{
           id: 1,
@@ -100,7 +100,7 @@ export const dict = {
           name: '吴爱国',
           year: 2018,
           month: 4,
-          day: 1,
+          day: 2,
           type: 1,
         }, {
           id: 1,
@@ -112,7 +112,7 @@ export const dict = {
           name: '吴爱国',
           year: 2018,
           month: 4,
-          day: 1,
+          day: 3,
           type: 0,
         }, {
           id: 1,
@@ -124,11 +124,51 @@ export const dict = {
           name: '吴爱国',
           year: 2018,
           month: 4,
-          day: 1,
+          day:4,
           type: 1,
         }]
       }
-    } else {
+    } else if (params && params.type == 0){
+     return {
+       list: [{
+         id: 1,
+         // 医院
+         hospital: '仁爱医院',
+         // 科室
+         office: '眼科',
+         // 医生姓名
+         name: '吴爱国',
+         year: 2018,
+         month: 4,
+         day: 1,
+         type: 1,
+       }, {
+         id: 1,
+         // 医院
+         hospital: '仁爱医院',
+         // 科室
+         office: '眼科',
+         // 医生姓名
+         name: '吴爱国',
+         year: 2018,
+         month: 4,
+         day: 1,
+         type: 0,
+       }, {
+         id: 1,
+         // 医院
+         hospital: '仁爱医院',
+         // 科室
+         office: '眼科',
+         // 医生姓名
+         name: '吴爱国',
+         year: 2018,
+         month: 4,
+         day: 1,
+         type: 1,
+       }]
+     }
+    }else{
       return {
         code: '0',
         errMsg: '非法预约类型'

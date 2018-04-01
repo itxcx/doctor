@@ -35,6 +35,13 @@
   background: #f3f3f3;
   margin-bottom: 20rpx;
 }
+.order-day.today{
+  background: #cef7e5;
+}
+.order-day.after{
+  background: #fbf4de;
+}
+
 .data{
   padding-top: 12rpx;
   font-size: 36rpx;
@@ -49,6 +56,15 @@
   margin-right: 42rpx;
   position: relative;
 }
+
+.today .icon{
+  border-color: #44ddb5;
+}
+
+.after .icon{
+  border-color:#f5a623; 
+}
+
 .icon::after{
   content: '';
   position: absolute;
