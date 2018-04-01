@@ -2,6 +2,7 @@ node_modules/
 README.html
 !.gitkeep
 protocol.html
+process.html
 dist/
 logs/*.log
 
