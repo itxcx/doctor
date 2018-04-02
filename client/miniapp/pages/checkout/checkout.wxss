@@ -121,3 +121,4 @@ page{
   height: 20rpx;
   background: green
 }
+.button-group .confirm{}

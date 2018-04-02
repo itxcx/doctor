@@ -31,13 +31,13 @@ export const dict = {
     } else {
       return {
         info: {
-          id: '_avc',
+          id: '1',
           // 医院
-          hospital: '小姐姐厉害哟',
+          hospital: '仁爱医院',
           // 科室
-          office: '厉害',
+          office: '眼科',
           // 医生姓名
-          name: '科室',
+          name: '吴爱国',
         }
       }
     }

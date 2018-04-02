@@ -105,6 +105,11 @@ Page({
     if (this.data.nameList) {
       let { value } = e.detail;
       let { id, name } = this.data.nameList[value];
+      app.globalData.doctorInfo = {
+        hospital:this.data.hospital,
+        office:this.data.office,
+        name:name
+      }
       return this.setData({
         name,
         currentId:id

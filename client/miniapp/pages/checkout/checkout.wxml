@@ -6,10 +6,10 @@
         <image src='../../images/user.png'></image>
       </view>
       <view class='doctor-info'>
-          <view class='doctor-name'>吴建国</view>
+          <view class='doctor-name'>{{name}}</view>
           <view class='doctor-company'>
-              <text>眼科</text>
-              <text>仁爱医院</text>
+              <text>{{office}}</text>
+              <text>{{hospital}}</text>
           </view>
       </view>
     </view>
@@ -42,6 +42,22 @@
       </view>
   </view>
   <view class='picker-list'>
-
+    <view class='title'>今日设置</view>
+    <view class='list'>
+      <view class='am'>
+        <view class='checkout'></view>
+        <view class='time'></view>
+        <view class='setting'>设定</view>      
+      </view>
+      <view class='pm'>
+        <view class='checkout'></view>
+        <view class='time'></view>
+        <view class='setting'>设定</view>
+      </view>
+      <view class='button-group'>
+        <view class='confirm'>确认</view>
+        <view class='cancel'>取消</view>
+      </view>
+    </view>
   </view>
 </view>
