@@ -1,5 +1,5 @@
 // pages/welcome/welcome.js
-import {api} from '../../utils/api/index.js';
+import { api } from '../../utils/api/index.js';
 const app = getApp();
 Page({
 
@@ -94,17 +94,17 @@ Page({
   enter: function (e) {
     let isDoc = this.checkIsdoc(e);
     app.globalData.isDoc = isDoc;
-    if(isDoc){
+    if (isDoc) {
       this.onJumpisDoc()
-    }else{
+    } else {
       this.onJumpisNoDoc();
     }
   },
-  checkIsdoc:function(e){
+  checkIsdoc: function (e) {
     let { doctor } = e.currentTarget.dataset;
     return doctor == 1;
   },
-  onJumpisDoc:function(){
+  onJumpisDoc: function () {
     if (!this.data.value) {
       return wx.showToast({
         icon: 'loading',
@@ -119,11 +119,13 @@ Page({
         url,
         data,
       }).then(res => {
+        let { info: { hospital, office, name, id } } = res;
+        app.globalData.doctorInfo = { hospital, office, name };
         wx.navigateTo({
-          url: `/pages/checkout/checkout?docotr=1`,
+          url: `/pages/checkout/checkout?doctor=1&doctorId=${id}`,
         })
-      }).catch(err=>{
-        if(err.errMsg){
+      }).catch(err => {
+        if (err.errMsg) {
           wx.showToast({
             title: err.errMsg,
           })
@@ -131,7 +133,7 @@ Page({
       })
     }
   },
-  onJumpisNoDoc:function(){
+  onJumpisNoDoc: function () {
     wx.navigateTo({
       url: `/pages/choose/choose`,
     })
