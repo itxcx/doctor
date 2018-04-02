@@ -45,12 +45,19 @@
     <view class='title'>今日设置</view>
     <view class='list'>
       <view class='am'>
-        <view class='checkout'></view>
+        <view class='left-area'>
+            <view class='checkout'></view>
+            <view class='label'>上午</view>
+        </view>
         <view class='time'></view>
         <view class='setting'>设定</view>      
       </view>
       <view class='pm'>
-        <view class='checkout'></view>
+        <view class='left-area'>
+          <view class='checkout'></view>
+          <view class='label'>下午</view>
+        </view>
+
         <view class='time'></view>
         <view class='setting'>设定</view>
       </view>

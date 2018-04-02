@@ -121,4 +121,58 @@ page{
   height: 20rpx;
   background: green
 }
-.button-group .confirm{}
+.picker-list .title{
+  height: 76rpx;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAABCBAMAAAA1XHqGAAAAJ1BMVEUSt/IinuYPu/QLwfcgougcqOsYru4aq+0WsfAkm+UUtPEepeoNvvb+/CAOAAACTUlEQVR42u2SoY7CUBBFJ0hckxocQdetxZDg0ASBp/0Byh+Qpg6JQxI0KFxr96N25k1Lu0t3srQVZHPP7puZN+fV3EBH0AkEiABfAgG+G3Q8HDxvNDpyH0mTrugEb3vyaoxc5b130JkHeMPzRB7oAgLsM0BfCu5/v+MX2APkz2a+73uz2VwmPpysP5+7mS8+vO1p/oxoKW6Etz01v1Dvc4O3Pc1BexBgHwEuFterHL2X02MDb3u6g05wgAvpHOjVdSlX/lvwVYC3PX6BrUGAvUDr+/12W69vtyVTdjergbc9LUEnECACfAkE+G7QartdLler3W67Xa346F0m3cHbnnYG8gbe9iTDtkkWHd72tAMtaQ4wjsPQDVJjrvC2J17E8aZGXDVx8LanYh1uYoVn7WEYyit429MGdAABdoai/b6coyhJ5BbxTo6ICN72xEu9qqhPkRjxCd/5wDd4StgxUfITtmoieMNT0kj1Cfwv7LVRAtqRaqPymp7PZXdz6qqDW6p7+Mon6ulSR+TlibP88z5N4R++7JRyaucfKcpz3emkX53ha/5S7OgCuvBSgEP4Z8htTydyDIcySz+d5MgkX8L/6ukvPD6HBwD8R8bwrf14MJgw4/GAkSpHN5MBV3jbEx9hImitbbjC254mBVWqJTrD254moD0IsL8AgyDLql6b4G1Pn0qWBUFRvwNve/oMMkYf6crdA9lJhTc9Bwi6gAC7QlOpef7hmE5llp7nfGSCtz2pEcnoxL0C3vbEJ39+Xa3gbU8foA0IEAG+CV/KpsEvH8uzjwAAAABJRU5ErkJggg==) no-repeat;
+  background-size: cover;
+  font-size: 28rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.list .am,.list .pm{
+  display: flex;
+  height: 98rpx;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list .left-area{
+  width: 130rpx;
+  margin-left: 16rpx;
+}
+.list .label{
+  font-size: 28rpx;
+  color: #282828;
+}
+.list .setting{
+  background-color:#d8d8d8;
+  color: #282828;
+  font-size: 24rpx;
+  text-align: center;
+  width: 102rpx;
+  height: 54rpx;
+  line-height: 54rpx;
+  border-radius: 27rpx;
+}
+.button-group{
+  display: flex;
+  width: 238rpx;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+.button-group .confirm,.button-group .cancel{
+  width: 102rpx;
+  height: 54rpx;
+  line-height: 54rpx;
+  text-align: center;
+  font-size: 24rpx;
+  border-radius: 27rpx;
+  background: #f5f5f5;
+  color: #282828;
+}
+.button-group .confirm{
+  background: #ffa865;
+  color: #fff;
+}
