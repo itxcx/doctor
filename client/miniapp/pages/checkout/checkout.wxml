@@ -33,7 +33,7 @@
         <view>六</view>
       </view>
       <view class='date-body'>
-        <block wx:for='{{dateList}}'>
+        <block wx:for='{{dateList}}' wx:key='{{item[1].day}}'>
           <view class='day'>
             <text class='{{item[1].today?"today":""}} radius'>{{item[1].day}}</text>
             <view class='{{item[1].isOver?"isOver":""}} status' wx:if='{{item[1].color}}'></view>

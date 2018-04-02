@@ -18,7 +18,6 @@ Page({
    */
   onLoad: function (options) {
     this.getList();
-    this.getNowDate();
   },
 
   /**
@@ -68,17 +67,6 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-  getNowDate: function () {
-    let date = new Date();
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    this.setData({
-      currentYear: year,
-      currentMonth: month,
-      currentDay: day
-    })
   },
   changeType:function(){
     if(this.data.first){
