@@ -74,7 +74,7 @@ Page({
     }
   },
   getCategoryList:function(){
-    let url = api.doctorList();
+    let url = api.categoryList();
     app.ajax({ url }).then(res => {
       let formatList = format(res.list);
       this.setData({

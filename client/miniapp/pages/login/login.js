@@ -9,6 +9,7 @@ Page({
   data: {
     currentMode: 'user',
     value: '',
+    username: ''
   },
 
   /**
@@ -38,6 +39,7 @@ Page({
    */
   onShow: function () {
     this.handleUser();
+    this.getInit();
   },
 
   /**
@@ -87,9 +89,17 @@ Page({
   },
   handleUser: function () {
     let { userInfo } = app.globalData;
-    this.setData({
-      userInfo,
-    })
+    if (userInfo) {
+      this.setData({
+        userInfo,
+      })
+    } else {
+      app.userInfoReadyCallback = res => {
+        this.setData({
+          userInfo: res.userInfo
+        })
+      }
+    }
   },
   enter: function (e) {
     let isDoc = this.checkIsdoc(e);
@@ -116,12 +126,14 @@ Page({
         regCode: this.data.value
       }
       app.ajax({
+        method: 'POST',
         url,
         data,
       }).then(res => {
+        wx.setStorageSync('password', this.data.value);
         let { info: { hospital, office, name, id } } = res;
         app.globalData.doctorInfo = { hospital, office, name };
-        wx.navigateTo({
+        wx.redirectTo({
           url: `/pages/checkout/checkout?doctor=1&doctorId=${id}`,
         })
       }).catch(err => {
@@ -134,13 +146,64 @@ Page({
     }
   },
   onJumpisNoDoc: function () {
-    wx.navigateTo({
-      url: `/pages/choose/choose`,
-    })
+    if (!this.data.username) {
+      return wx.showToast({
+        icon: 'loading',
+        title: '请输入名字',
+      })
+    } else {
+      let url = api.patientReg();
+      let data = {
+        name: this.data.username
+      };
+      app.ajax({ url, data, method: 'POST' }).then(res => {
+        wx.setStorageSync('username',this.data.username);
+        let url = api.patientList();
+        let data = {
+          type: 1
+        }
+        app.ajax({ url, data }).then(res => {
+          let { list } = res;
+          if (list.length > 0) {
+            wx.redirectTo({
+              url: `/pages/order/order`,
+            })
+          } else {
+            wx.redirectTo({
+              url: `/pages/category/category`,
+            })
+          }
+        })
+      }).catch(err => {
+        wx.showToast({
+          title: err.errMsg,
+          icon: 'lodding'
+        })
+      })
+    }
+
+
+
   },
   bindKeyInput: function (e) {
     this.setData({
       value: e.detail.value
+    })
+  },
+  bindKeyUserName: function (e) {
+    this.setData({
+      username: e.detail.value
+    })
+  },
+  getSetting: function () {
+
+  },
+  getInit: function () {
+    let username = wx.getStorageSync('username');
+    let value = wx.getStorageSync('password');
+    this.setData({
+      username,
+      value
     })
   }
 })

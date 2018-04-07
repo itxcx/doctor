@@ -1,10 +1,8 @@
 {
   "pages": [
-    "pages/welcome/welcome",
+    "pages/login/login",
     "pages/checkout/checkout",
-    "pages/index/index",
-    "pages/logs/logs",
-    "pages/choose/choose",
+    "pages/category/category",
     "pages/order/order"
   ],
   "window": {

@@ -18,11 +18,12 @@
     </view>
   </view>
   <view class='login-button'>
-     <view class='user-button' wx:if="{{currentMode=='user'}}" data-doctor='0' bindtap='enter'>
-      点击进入
+     <input placeholder='请输入用户名' placeholder-class='placeholder-class' bindinput='bindKeyUserName' wx:if="{{currentMode=='user'}}" value='{{username}}'></input>
+     <view class='user-button' wx:if="{{currentMode=='user'}}" data-doctor='0' bindtap='enter' class='enter'>
+      进入
     </view> 
     <view class='doctor-button' wx:else>
-      <input placeholder='请输入密码' placeholder-class='placeholder-class' bindinput='bindKeyInput'></input>
+      <input placeholder='请输入密码' placeholder-class='placeholder-class' bindinput='bindKeyInput' value='{{value}}'></input>
       <view class='enter' bindtap='enter' data-doctor='1'>进入</view>
     </view>
   </view>

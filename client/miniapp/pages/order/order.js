@@ -78,7 +78,7 @@ Page({
     }
   },
   getList: function () {
-    let url = api.orderList();
+    let url = api.patientList();
     let data = {
       type: this.data.type
     }
@@ -102,6 +102,11 @@ Page({
       })
     }).catch(e => {
       console.log(e);
+    })
+  },
+  handleJumpCategroy:function(){
+    wx.navigateTo({
+      url: '/pages/category/category',
     })
   }
 })

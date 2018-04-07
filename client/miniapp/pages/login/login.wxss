@@ -49,10 +49,11 @@ page{
   color: #ffa865;
 }
 .login-button{
+  display: flex;
   margin-top: 107rpx;
 }
 
-.login-button .user-button{
+/* .login-button .user-button{
   width: 424rpx;
   height: 94rpx;
   font-size: 28rpx;
@@ -62,25 +63,31 @@ page{
   text-align: center;
   color: #fff;
   box-shadow: 3rpx 3rpx 10px #ddd;
-}
+} */
+.user-button,
 .doctor-button{
   display: flex;
   justify-content: center;
 }
+.login-button input,
 .doctor-button input{
   width: 282rpx;
   height: 94rpx;
+  padding-left: 24rpx;
+  box-sizing: border-box;
   background-color: #50b8eb;
   opacity: .8;
   color: #fff;
   box-shadow: 3rpx 3rpx 10px #ddd;
   
 }
+.login-button .placeholder-class,
 .doctor-button .placeholder-class{
   font-size: 28rpx;
   color: #fff;
-  text-align: center;
+  padding-left: 24rpx;
 }
+.login-button .enter,
 .doctor-button .enter{
   width: 134rpx;
   height: 94rpx;

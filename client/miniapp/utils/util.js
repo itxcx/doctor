@@ -32,7 +32,11 @@ const ajax=( options )=>{
         if(res.code===undefined){
           resolve(res);
         }else{
-          reject(res);    
+          wx.showToast({
+            title: res.errMsg,
+            mask:true,
+            icon:'none'
+          })  
         }
       },
       fail: err => {

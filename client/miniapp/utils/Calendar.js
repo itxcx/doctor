@@ -57,4 +57,23 @@ export class Calendar{
       this.map.set(key,Object.assign({},currentObj,obj));
     }
   }
+  
+  rmMapObject(key){
+    for(let[map,value] of this.map){
+      if (value.hasOwnProperty(key)){
+        delete value[key];
+      }
+    }
+  }
+  
+  isOwn (key,property){
+    if(this.map.has(key)){
+      let currentObj = this.map.get(key);
+      if (currentObj.hasOwnProperty(property)){
+        return true
+      }else{
+        return false
+      }
+    }
+  }
 }

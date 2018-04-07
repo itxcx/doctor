@@ -100,9 +100,17 @@
   border-radius: 30rpx;
 }
 
-
-
 .category{
   display: flex;
   justify-content: flex-start;
+}
+.button{
+  width: 546rpx;
+  height: 94rpx;
+  background: #f5a623;
+  color: #fff;
+  text-align: center;
+  margin: 80rpx auto 0;
+  font-size: 30rpx;
+  line-height: 94rpx;
 }

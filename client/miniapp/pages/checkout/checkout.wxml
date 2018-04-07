@@ -6,64 +6,139 @@
         <image src='../../images/user.png'></image>
       </view>
       <view class='doctor-info'>
-          <view class='doctor-name'>{{name}}</view>
-          <view class='doctor-company'>
-              <text>{{office}}</text>
-              <text>{{hospital}}</text>
-          </view>
+        <view class='doctor-name'>{{name}}</view>
+        <view class='doctor-company'>
+          <text>{{office}}</text>
+          <text>{{hospital}}</text>
+        </view>
       </view>
     </view>
-    <view class='setting' wx:if='{{doctorSetting}}'>
+    <view class='setting' wx:if='{{doctorSetting}}' bindtap='allSetting'>
       <image src='../../images/settings.png'></image>
     </view>
   </view>
   <view class='check-date'>
-      <view class='current-date'>
-        <view class='prev' data-direction='0' bindtap='change'><image src='../../images/prev.png'></image></view>
-        <view class='current'>{{year}}-{{month}}</view>
-        <view class='next' data-direction='1' bindtap='change'><image src='../../images/next.png'></image></view>
+    <view class='current-date'>
+      <view class='prev' data-direction='0' bindtap='change'>
+        <image src='../../images/prev.png'></image>
       </view>
-      <view class='date-header'>
-        <view>日</view>
-        <view>一</view>
-        <view>二</view>
-        <view>三</view>
-        <view>四</view>
-        <view>五</view>
-        <view>六</view>
+      <view class='current'>{{year}}-{{month}}</view>
+      <view class='next' data-direction='1' bindtap='change'>
+        <image src='../../images/next.png'></image>
       </view>
-      <view class='date-body'>
-        <block wx:for='{{dateList}}' wx:key='{{item[1].day}}'>
-          <view class='day'>
-            <text class='{{item[1].today?"today":""}} radius'>{{item[1].day}}</text>
-            <view class='{{item[1].isOver?"isOver":""}} status' wx:if='{{item[1].color}}'></view>
-          </view>
-        </block>
-      </view>
+    </view>
+    <view class='date-header'>
+      <view>日</view>
+      <view>一</view>
+      <view>二</view>
+      <view>三</view>
+      <view>四</view>
+      <view>五</view>
+      <view>六</view>
+    </view>
+    <view class='date-body'>
+      <block wx:for='{{dateList}}' wx:key='{{item[1].day}}'>
+        <view class='day' bindtap='chooseDay' data-day='{{item[1].day}}'>
+          <text class='{{item[1].today?"today":""}} radius {{item[1].active?"active":""}}'>{{item[1].day}}</text>
+          <view class='{{item[1].isOver?"isOver":""}} status' wx:if='{{item[1].color}}'></view>
+        </view>
+      </block>
+    </view>
   </view>
-  <view class='picker-list'>
-    <view class='title'>今日设置</view>
-    <view class='list'>
+  <view class='picker-list' wx:if='{{isChoose}}'>
+    <view class='title'>
+      <view class='{{isOrder?"current":""}}' bindtap='changeList' data-setOrder='true' wx:if='{{!isglobal&&doctorSetting}}'>预约列表</view>
+      <view class='{{!isOrder?"current":""}}' bindtap='changeList' data-setOrder='false' wx:if='{{doctorSetting}}'> {{setTitle}}</view>
+      <view class='current' wx:if='{{!doctorSetting}}'>当日预约</view>
+    </view>
+    <view class='list' wx:if='{{!isOrder&&doctorSetting}}'>
       <view class='am'>
         <view class='left-area'>
-            <view class='checkout'></view>
-            <view class='label'>上午</view>
+          <view class='checkout {{am.active?"checked":""}}' bindtap='am'></view>
+          <view class='label'>上午</view>
         </view>
-        <view class='time'></view>
-        <view class='setting'>设定</view>      
+        <view class='time'>
+          <picker mode="time" start="00:00" end="12:30" value="hh:m" bindchange='amStart' fields='10'>
+            <view class='start'>{{am.startTime}}</view>
+          </picker>
+          <view class='icon-image'>
+            <image src='../../images/arrow-R.png'></image>
+          </view>
+          <picker mode="time" start="{{am.startTime}}" end="12:00" value='{{amEndTime}}' bindchange='amEnd'>
+            <view class='end'>{{am.endTime}}</view>
+          </picker>
+        </view>
+        <from class='setting-wrapper'>
+          <button class='setting {{am.active?"active":""}}' bindtap='amSettingBtn' data-able='{{am.active}}'>设定</button>
+        </from>
       </view>
       <view class='pm'>
         <view class='left-area'>
-          <view class='checkout'></view>
+          <view class='checkout {{pm.active?"checked":""}}' bindtap='pm'></view>
           <view class='label'>下午</view>
         </view>
-
-        <view class='time'></view>
-        <view class='setting'>设定</view>
+        <view class='time'>
+          <picker mode="time" start="00:00" end="12:00" value="{{pmStartTime}}" bindchange='pmStart'>
+            <view class='start'>{{pm.startTime}}</view>
+          </picker>
+          <view class='icon-image'>
+            <image src='../../images/arrow-R.png'></image>
+          </view>
+          <picker mode="time" start="{{pm.startTime}}" end="00:00" value='{{pmEndTime}}' bindchange='pmEnd'>
+            <view class='end'>{{pm.endTime}}</view>
+          </picker>
+        </view>
+        <from class='setting-wrapper'>
+          <button class='setting {{pm.active?"active":""}}' bindtap='pmSettingBtn' data-able='{{pm.active}}'>设定</button>
+        </from>
       </view>
       <view class='button-group'>
-        <view class='confirm'>确认</view>
+        <view class='confirm' bindtap='confirm'>确认</view>
         <view class='cancel'>取消</view>
+      </view>
+    </view>
+
+    <view class='order-list' wx:if='{{isOrder&&!isglobal}}'>
+      <view class='order-time-list order-am-list'>
+        <view class='label'>上午</view>
+        <scroll-view scroll-y='true' class='scroll-heigth'>
+          <view class='name-list'>
+            <block wx:for='{{amList}}' wx:key="{{item.name}}">
+              <view class='name'>{{item.name}}</view>
+            </block>
+          </view>
+        </scroll-view>
+      </view>
+      <view class='order-time-list'>
+        <view class='label'>下午</view>
+        <scroll-view scroll-y='true' class='scroll-heigth'>
+          <view class='name-list'>
+            <block wx:for='{{pmList}}' wx:key="{{item.name}}">
+              <view class='name'>{{item.name}}</view>
+            </block>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+
+    <view class='patient-list list' wx:if='{{!doctorSetting}}'>
+      <view class='am'>
+        <view class='left-area'>
+          <view class='checkout {{patient.am?"checked":""}}' bindtap='patientAm'></view>
+          <view class='label'>上午</view>
+        </view>
+        <form class='setting-wrapper' report-submit='true' bindsubmit='patientOrderAm' data-able='{{patient.am}}'>
+          <button class='setting {{patient.am?"active":""}}' form-type='submit' >设定</button>
+        </form>
+      </view>
+      <view class='pm'>
+        <view class='left-area'>
+          <view class='checkout {{patient.pm?"checked":""}}' bindtap='patientPm'></view>
+          <view class='label'>上午</view>
+        </view>
+        <form class='setting-wrapper' report-submit='true' bindsubmit='patientObderPm' data-able='{{patient.pm}}'>
+          <button class='setting {{patient.pm?"active":""}}' form-type='submit'>设定</button>
+        </form>
       </view>
     </view>
   </view>
