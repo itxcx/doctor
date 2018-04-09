@@ -1,0 +1,37 @@
+<!--pages/choose/choose.wxml-->
+<view>
+  <view class='category-title'>选择你想要查找的医生</view>
+  <view class='category-list'>
+    <view class='category-level'>
+      <view class='label'>医院</view>
+      <picker mode='selector' range='{{categoryList}}' range-key='hospital' value='{{hospital}}' bindchange='getOfficeList'>
+        <view class='value'>
+          <view class='select'>{{hospital}}</view>
+          <image class='button' src='../../images/down.png'></image>
+        </view>
+      </picker>
+    </view>
+    <view class='category-level'>
+      <view class='label'>科室</view>
+      <picker mode='selector' range='{{officeList}}' range-key='office' value='{{officeList}}' bindchange='getDoctorList'>
+        <view class='value'>
+          <view class='select'>{{office}}</view>
+          <image class='button' src='../../images/down.png'></image>
+        </view>
+      </picker>
+    </view>
+    <view class='category-level'>
+      <view class='label'>医生</view>
+      <picker mode='selector' range='{{nameList}}' range-key='name' value='{{name}}' bindchange='getId'>
+        <view class='value'>
+          <view class='select'>{{name}}</view>
+          <image class='button' src='../../images/down.png'></image>
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class='confrim' bindtap='onJumpCheckout'>
+    确认
+  </view>
+
+</view>
