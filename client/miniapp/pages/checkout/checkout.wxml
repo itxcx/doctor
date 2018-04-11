@@ -93,8 +93,7 @@
         </from>
       </view>
       <view class='button-group'>
-        <view class='confirm' bindtap='confirm'>确认</view>
-        <view class='cancel'>取消</view>
+        <view class='cancel'>关闭</view>
       </view>
     </view>
 

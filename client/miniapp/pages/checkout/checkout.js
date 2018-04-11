@@ -10,13 +10,13 @@ Page({
    */
   data: {
     am: {
-      startTime: '09:00',
-      endTime: '10:30',
+      startTime: '--:--',
+      endTime: '--:--',
       active: false,
     },
     pm: {
-      startTime: '12:30',
-      endTime: '18:00',
+      startTime: '--:--',
+      endTime: '--:--',
       active: false,
     },
     patient: {
@@ -207,7 +207,7 @@ Page({
   },
   allSetting: function () {
     this.setData({
-      setTitle: '全部设置',
+      setTitle: '默认设置',
       isChoose: true,
       isglobal: true,
       isOrder: false

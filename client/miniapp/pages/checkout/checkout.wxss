@@ -178,7 +178,7 @@ page{
   display: flex;
   width: 238rpx;
   margin: 0 auto 35rpx;
-  justify-content: space-between;
+  justify-content: center;
 }
 .button-group .confirm,.button-group .cancel{
   width: 102rpx;
