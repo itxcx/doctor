@@ -2,7 +2,7 @@
   <view class='title'>
     <view class='next'></view>
     <view class='title-info'>我的预约列表</view>
-    <view class='action' bindtap='changeType'>全部预约</view>
+    <view class='action' bindtap='changeType'>{{more}}</view>
   </view>
   <view class='order-list'>
     <view class='order-day {{index==list.length-1?"last":""}} {{item.status}}' wx:for='{{list}}' wx:key="{{item.id}}">

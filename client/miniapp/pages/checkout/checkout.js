@@ -27,6 +27,8 @@ Page({
     isChoose: false,
     isglobal: false,
     isOrder: false,
+    amSettingBtn:'预约',
+    pmSettingBtn:'预约'
   },
 
   /**

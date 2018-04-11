@@ -49,7 +49,7 @@
     <view class='title'>
       <view class='{{isOrder?"current":""}}' bindtap='changeList' data-setOrder='true' wx:if='{{!isglobal&&doctorSetting}}'>预约列表</view>
       <view class='{{!isOrder?"current":""}}' bindtap='changeList' data-setOrder='false' wx:if='{{doctorSetting}}'> {{setTitle}}</view>
-      <view class='current' wx:if='{{!doctorSetting}}'>当日预约</view>
+      <view class='current' wx:if='{{!doctorSetting}}'>当前预约</view>
     </view>
     <view class='list' wx:if='{{!isOrder&&doctorSetting}}'>
       <view class='am'>
@@ -127,16 +127,16 @@
           <view class='label'>上午</view>
         </view>
         <form class='setting-wrapper' report-submit='true' bindsubmit='patientOrderAm' data-able='{{patient.am}}'>
-          <button class='setting {{patient.am?"active":""}}' form-type='submit' >设定</button>
+          <button class='setting {{patient.am?"active":""}}' form-type='submit' >{{amSettingBtn}}</button>
         </form>
       </view>
       <view class='pm'>
         <view class='left-area'>
           <view class='checkout {{patient.pm?"checked":""}}' bindtap='patientPm'></view>
-          <view class='label'>上午</view>
+          <view class='label'>下午</view>
         </view>
         <form class='setting-wrapper' report-submit='true' bindsubmit='patientObderPm' data-able='{{patient.pm}}'>
-          <button class='setting {{patient.pm?"active":""}}' form-type='submit'>设定</button>
+          <button class='setting {{patient.pm?"active":""}}' form-type='submit'>{{pmSettingBtn}}</button>
         </form>
       </view>
     </view>

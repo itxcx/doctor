@@ -11,6 +11,7 @@ Page({
     type: 1,
     list: [],
     first:true,
+    more:'全部预约'
   },
 
   /**
@@ -72,7 +73,8 @@ Page({
     if(this.data.first){
       this.setData({
         type:0,
-        first:false
+        first:false,
+        more:'当前预约'
       })
       this.getList();
     }
