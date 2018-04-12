@@ -39,7 +39,7 @@
     <view class='date-body'>
       <block wx:for='{{dateList}}' wx:key='{{item[1].day}}'>
         <view class='day' bindtap='chooseDay' data-day='{{item[1].day}}'>
-          <text class='{{item[1].today?"today":""}} radius {{item[1].active?"active":""}}'>{{item[1].day}}</text>
+          <text class='{{item[1].today?"today":""}} radius {{item[1].active?"active":""}} {{item[1].isOver&&!doctorSetting?"isOver":""}} {{item[1].isFuture&&!doctorSetting?"isFuture":""}}'>{{item[1].day}}</text>
           <view class='{{item[1].isOver?"isOver":""}} status' wx:if='{{item[1].color}}'></view>
         </view>
       </block>
@@ -126,6 +126,13 @@
           <view class='checkout {{patient.am?"checked":""}}' bindtap='patientAm'></view>
           <view class='label'>上午</view>
         </view>
+        <view class='time'>
+          <view class='start'>{{am.startTime}}</view>
+          <view class='icon-image'>
+            <image src='../../images/arrow-R.png'></image>
+          </view>
+          <view class='end'>{{am.endTime}}</view>
+        </view>
         <form class='setting-wrapper' report-submit='true' bindsubmit='patientOrderAm' data-able='{{patient.am}}'>
           <button class='setting {{patient.am?"active":""}}' form-type='submit' >{{amSettingBtn}}</button>
         </form>
@@ -134,6 +141,13 @@
         <view class='left-area'>
           <view class='checkout {{patient.pm?"checked":""}}' bindtap='patientPm'></view>
           <view class='label'>下午</view>
+        </view>
+        <view class='time'>
+          <view class='start'>{{pm.startTime}}</view>
+          <view class='icon-image'>
+            <image src='../../images/arrow-R.png'></image>
+          </view>
+          <view class='end'>{{pm.endTime}}</view>
         </view>
         <form class='setting-wrapper' report-submit='true' bindsubmit='patientObderPm' data-able='{{patient.pm}}'>
           <button class='setting {{patient.pm?"active":""}}' form-type='submit'>{{pmSettingBtn}}</button>

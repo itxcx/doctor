@@ -203,7 +203,9 @@ Page({
       this.data.isOrder = true
     }
     this.getTodaySetting(this.data.currentChooseYear, this.data.currentChooseMonth, this.data.currentChooseday);
-    this.getDoctorList();
+    if(this.data.doctorSetting){
+      this.getDoctorList();
+    }
     this.setData({
       dateList: Array.from(calendar.map),
       setTitle: '今日设置',
