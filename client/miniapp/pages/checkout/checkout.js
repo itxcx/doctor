@@ -1,7 +1,9 @@
 // pages/checkout/checkout.js
 import { Calendar } from '../../utils/Calendar.js';
+import { OrderList } from '../../utils/OrderList.js'
 import { api } from '../../utils/api/index.js';
 const calendar = Calendar.getInstance();
+const orderList = OrderList.getInstance();
 const app = getApp();
 Page({
 
@@ -55,6 +57,9 @@ Page({
   onShow: function () {
     this.setDateInfo();
     this.setDoctorInfo();
+    if(!this.data.doctorSetting){
+      this.getOrderList();
+    }
   },
 
   /**
@@ -205,6 +210,26 @@ Page({
     this.getTodaySetting(this.data.currentChooseYear, this.data.currentChooseMonth, this.data.currentChooseday);
     if(this.data.doctorSetting){
       this.getDoctorList();
+    }else{
+      let dateTime = new Date(`${this.data.currentChooseYear/1}-${this.data.currentChooseMonth/1}-${this.data.currentChooseday/1}`).getTime();
+      if (orderList.dateMap.has(dateTime)){
+        let arr = orderList.dateMap.get(dateTime);
+        arr.forEach(el=>{
+            if (el.type === 0){
+              this.data.amSettingBtn = '取消'
+            } else if (el.type !== 1){
+              this.data.amSettingBtn = '预约'
+            }
+            if (el.type === 1 ) {
+              this.data.pmSettingBtn = '取消'
+            } else if (el.type !== 0){
+              this.data.pmSettingBtn = '预约'
+            }
+        })
+      }else{
+        this.data.amSettingBtn = '预约'
+        this.data.pmSettingBtn = '预约'
+      }
     }
     this.setData({
       dateList: Array.from(calendar.map),
@@ -212,7 +237,10 @@ Page({
       isChoose: true,
       isglobal: false,
       setAble:this.data.setAble,
-      isOrder: this.data.isOrder
+      isOrder: this.data.isOrder,
+      amSettingBtn:this.data.amSettingBtn,
+      pmSettingBtn: this.data.pmSettingBtn
+
     })
   },
   allSetting: function () {
@@ -415,6 +443,24 @@ Page({
   cancel:function(){
     this.setData({
       isChoose: false
+    })
+  },
+  getOrderList:function(){
+    let url = api.patientList();
+    let data = {type:0}
+    app.ajax({url,data}).then(res=>{
+      let { list } = res;
+      return new Promise(resolve=>{
+        resolve(list);
+      })
+    }).then(e=>{
+      let data = {type:1};
+      app.ajax({url,data}).then(res=>{
+        let { list } = res;
+        let currentList = [...e,...list];
+        orderList.sourceMap(currentList);
+        orderList.getMap(this.data.doctorId/1);
+      })
     })
   }
 })
