@@ -195,24 +195,35 @@ Page({
     };
     calendar.rmMapObject('active');
     calendar.setMapObject(day, { active: true })
-    if (!calendar.isOwn(day, 'isOver')) {
-      this.data.isChoose = true
+    if (!calendar.isOwn(day, 'isOver')) {  
+      this.data.setAble = true;
+      this.data.isOrder = false;
+    }else{
+      this.data.setAble = false;
+      this.data.isOrder = true
     }
     this.getTodaySetting(this.data.currentChooseYear, this.data.currentChooseMonth, this.data.currentChooseday);
     this.getDoctorList();
     this.setData({
       dateList: Array.from(calendar.map),
       setTitle: '今日设置',
-      isChoose: this.data.isChoose,
+      isChoose: true,
       isglobal: false,
+      setAble:this.data.setAble,
+      isOrder: this.data.isOrder
     })
   },
   allSetting: function () {
+    this.data.am.active = true;
+    this.data.pm.active = true;
     this.setData({
       setTitle: '默认设置',
       isChoose: true,
       isglobal: true,
-      isOrder: false
+      isOrder: false,
+      setAble:true,
+      am:this.data.am,
+      pm:this.data.pm,
     })
   },
   getTodaySetting: function (year, month, day) {
@@ -398,5 +409,10 @@ Page({
     if(this.data.pm.active){
       this.ampmSetting(0, this.data.pm);
     }
+  },
+  cancel:function(){
+    this.setData({
+      isChoose: false
+    })
   }
 })

@@ -48,13 +48,13 @@
   <view class='picker-list' wx:if='{{isChoose}}'>
     <view class='title'>
       <view class='{{isOrder?"current":""}}' bindtap='changeList' data-setOrder='true' wx:if='{{!isglobal&&doctorSetting}}'>预约列表</view>
-      <view class='{{!isOrder?"current":""}}' bindtap='changeList' data-setOrder='false' wx:if='{{doctorSetting}}'> {{setTitle}}</view>
+      <view class='{{!isOrder?"current":""}}' bindtap='changeList' data-setOrder='false' wx:if='{{doctorSetting&&setAble}}'> {{setTitle}}</view>
       <view class='current' wx:if='{{!doctorSetting}}'>当前预约</view>
     </view>
-    <view class='list' wx:if='{{!isOrder&&doctorSetting}}'>
+    <view class='list' wx:if='{{!isOrder&&doctorSetting&&setAble}}'>
       <view class='am'>
         <view class='left-area'>
-          <view class='checkout {{am.active?"checked":""}}' bindtap='am'></view>
+          <view class='checkout {{am.active?"checked":""}}' bindtap='am' wx:if='{{!isglobal}}'></view>
           <view class='label'>上午</view>
         </view>
         <view class='time'>
@@ -74,7 +74,7 @@
       </view>
       <view class='pm'>
         <view class='left-area'>
-          <view class='checkout {{pm.active?"checked":""}}' bindtap='pm'></view>
+          <view class='checkout {{pm.active?"checked":""}}' bindtap='pm' wx:if='{{!isglobal}}'></view>
           <view class='label'>下午</view>
         </view>
         <view class='time'>
@@ -93,7 +93,7 @@
         </from>
       </view>
       <view class='button-group'>
-        <view class='cancel'>关闭</view>
+        <view class='cancel' bindtap='cancel'>关闭</view>
       </view>
     </view>
 
