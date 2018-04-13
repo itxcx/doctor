@@ -105,6 +105,7 @@ export const dict = {
           year: year,
           month: month,
           day: day,
+          doctorId: 1,
           type: 1,
         }, {
           id: 1,
@@ -117,6 +118,7 @@ export const dict = {
           year: year,
           month: month,
           day: day+1,
+          doctorId: 1,
           type: 0,
         }, {
           id: 1,
@@ -129,6 +131,7 @@ export const dict = {
           year: year,
           month: month,
           day: day+2,
+          doctorId:1123,
           type: 1,
         }]
       }
@@ -144,8 +147,9 @@ export const dict = {
           name: '吴爱国',
           year: 2018,
           month: 4,
-          day: 1,
+          day: 15,
           type: 1,
+          doctorId: 1,
         }, {
           id: 1,
           // 医院
@@ -156,8 +160,9 @@ export const dict = {
           name: '吴爱国',
           year: 2018,
           month: 4,
-          day: 1,
+          day: 15,
           type: 0,
+          doctorId: 1,
         }, {
           id: 1,
           // 医院
@@ -168,8 +173,9 @@ export const dict = {
           name: '吴爱国',
           year: 2018,
           month: 4,
-          day: 1,
+          day: 19,
           type: 1,
+          doctorId:1,
         }]
       }
     } else {

@@ -148,10 +148,10 @@ page{
   border-bottom: 1px solid #f5f5f5
 }
 .list .left-area{
-  width: 130rpx;
+  width: 138rpx;
   margin-left: 16rpx;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 .list .setting-wrapper{
@@ -178,7 +178,7 @@ page{
   display: flex;
   width: 238rpx;
   margin: 0 auto 35rpx;
-  justify-content: space-between;
+  justify-content: center;
 }
 .button-group .confirm,.button-group .cancel{
   width: 102rpx;
@@ -214,6 +214,7 @@ page{
   height: 54rpx;
   border-radius: 50%;
   border: 1px solid #d8d8d8;
+  margin-right: 22rpx;
 }
 .checkout.checked{
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAMAAAANxBKoAAABcVBMVEUAAAAesvYnmeQiqu8Rx/4rnOoNv/clm+Qare0Nv/Ydp+sLw/kLxfoSufMhoukpl+IPw/oom+YasPQk2/83tv8JxfoSt/Mare4ho+gpluEMwvkRuvMioOgomOIKxvkqk+ElneUmmuQJx/oZr+8Pu/UVtfIplOEKx/kXsO8bqewrlOIJxvodqOsXsvAslOILxPoUufMioukpluIKyPoXs/EeqOsrleMNwfgnneURzP8rk+Egoegfo+kbquwinuYcqOsRuPMOvfUjneUTtfEUs/AWse8lm+UZrO0OvPQYre0cp+oVsvAYr+4QuvQdpuoKw/gLwfcepeoSt/ImmOMNv/YStvIMwPcpluIWr+4in+cnmeQolOInl+P5/f7W8fyN1/ZDuO8ise79/v7z+/7q+P3i9Py65fkJxfmY3Ph60fVrzPQduvJhwvFSuu7G6/qr3vdXyfUouPA1t/AZsu85revm9/3M7vvK6/qv4vhNxfMqsu435Ru9AAAAO3RSTlMAE8keGBj29ubjysd3d3d3MjIYBwf5+fn5+fDw8PDm5uPjzMzHx8aysrKymZmYmI6Ojo5lZWVlTk4e+TqR3jMAAAJ9SURBVEjHjc4Fc+JQEAfwDa4HBeru7n7XQluaoocHikPd7Xr66W/zQl4j0PY3O+z+dzPMAyX9xsKMZvDroGZmYUMP79I6JnLFN7kJhxZaYVa6i7liDqvId6J7hYFmPI7+nKCUK2GJvd/hARW9Jl1Kl7DSIpo1qve3DafThXQBS93Tw20gs2UsHBGFowJWo9OdcUv2z8aj9xnbgNIPHXxkiL7doxE23gMvgQOFQcgaDwi+5L0fynu/AMH0efN5jFikIzIjukd9DPCWv33OMiBtV+sP7l4loUvLv3qnpdfyvTTyL7fQlNxJYknOjw+ynQXAFYslY0kKA5bQayf3NJObC9ZjsXAsTGFAwu7igs7Cfh3mfL6wL0xhwCL9/qRGZyI8B9O+Vn4/KjfTYNlt4a78olxZwBQI7AaEgMNdLUA6LitXAYThjQk6A1LV83pjujn9Jy5DgRAWDp1gCknVK3+i0VAUr+dVssBAMmGC0ahMrXxDvrg+q2MTvqZGYeqYYo9Zlr0+fcGhfnbNYiQ7rMZ9CuZZhYtfP1i2eo4/KvOwFlF4PqtGnk9vIk2sgetQ6enk71UlctiEC2DcLzr0C8urn+UnfsaF7DYOAHbOz/llbisPuOJUezsAaDtSXAqL48TO3d5yIsmtQwtoKbWX4mHb42GjM81oCXhM795n9DJA2L9/hh0E7rHgx8bc0KAzB/eD+1hB0gXybNYB5TTwm8x+Bku4KrLBCRKbhgz9gsLQyIZNkHGaM5lsJttUxuwEBZ01oZRNZLESCasOVNy2nkScSMQTIhx7bG5ohllsjyu1LzLQyrbNehmnLi+ttm14l251dnJkoH1gZHJ2VfXe/xwtuwpqz3EvAAAAAElFTkSuQmCC) no-repeat;

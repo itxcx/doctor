@@ -1,7 +1,9 @@
 // pages/checkout/checkout.js
 import { Calendar } from '../../utils/Calendar.js';
+import { OrderList } from '../../utils/OrderList.js'
 import { api } from '../../utils/api/index.js';
 const calendar = Calendar.getInstance();
+const orderList = OrderList.getInstance();
 const app = getApp();
 Page({
 
@@ -10,13 +12,13 @@ Page({
    */
   data: {
     am: {
-      startTime: '09:00',
-      endTime: '10:30',
+      startTime: '--:--',
+      endTime: '--:--',
       active: false,
     },
     pm: {
-      startTime: '12:30',
-      endTime: '18:00',
+      startTime: '--:--',
+      endTime: '--:--',
       active: false,
     },
     patient: {
@@ -27,6 +29,8 @@ Page({
     isChoose: false,
     isglobal: false,
     isOrder: false,
+    amSettingBtn:'预约',
+    pmSettingBtn:'预约'
   },
 
   /**
@@ -53,6 +57,9 @@ Page({
   onShow: function () {
     this.setDateInfo();
     this.setDoctorInfo();
+    if(!this.data.doctorSetting){
+      this.getOrderList();
+    }
   },
 
   /**
@@ -193,24 +200,60 @@ Page({
     };
     calendar.rmMapObject('active');
     calendar.setMapObject(day, { active: true })
-    if (!calendar.isOwn(day, 'isOver')) {
-      this.data.isChoose = true
+    if (!calendar.isOwn(day, 'isOver')) {  
+      this.data.setAble = true;
+      this.data.isOrder = false;
+    }else{
+      this.data.setAble = false;
+      this.data.isOrder = true
     }
     this.getTodaySetting(this.data.currentChooseYear, this.data.currentChooseMonth, this.data.currentChooseday);
-    this.getDoctorList();
+    if(this.data.doctorSetting){
+      this.getDoctorList();
+    }else{
+      let dateTime = new Date(`${this.data.currentChooseYear/1}-${this.data.currentChooseMonth/1}-${this.data.currentChooseday/1}`).getTime();
+      if (orderList.dateMap.has(dateTime)){
+        let arr = orderList.dateMap.get(dateTime);
+        arr.forEach(el=>{
+            if (el.type === 0){
+              this.data.amSettingBtn = '取消'
+            } else if (el.type !== 1){
+              this.data.amSettingBtn = '预约'
+            }
+            if (el.type === 1 ) {
+              this.data.pmSettingBtn = '取消'
+            } else if (el.type !== 0){
+              this.data.pmSettingBtn = '预约'
+            }
+        })
+      }else{
+        this.data.amSettingBtn = '预约'
+        this.data.pmSettingBtn = '预约'
+      }
+    }
     this.setData({
       dateList: Array.from(calendar.map),
       setTitle: '今日设置',
-      isChoose: this.data.isChoose,
+      isChoose: true,
       isglobal: false,
+      setAble:this.data.setAble,
+      isOrder: this.data.isOrder,
+      amSettingBtn:this.data.amSettingBtn,
+      pmSettingBtn: this.data.pmSettingBtn
+
     })
   },
   allSetting: function () {
+    this.data.am.active = true;
+    this.data.pm.active = true;
     this.setData({
-      setTitle: '全部设置',
+      setTitle: '默认设置',
       isChoose: true,
       isglobal: true,
-      isOrder: false
+      isOrder: false,
+      setAble:true,
+      am:this.data.am,
+      pm:this.data.pm,
     })
   },
   getTodaySetting: function (year, month, day) {
@@ -396,5 +439,28 @@ Page({
     if(this.data.pm.active){
       this.ampmSetting(0, this.data.pm);
     }
+  },
+  cancel:function(){
+    this.setData({
+      isChoose: false
+    })
+  },
+  getOrderList:function(){
+    let url = api.patientList();
+    let data = {type:0}
+    app.ajax({url,data}).then(res=>{
+      let { list } = res;
+      return new Promise(resolve=>{
+        resolve(list);
+      })
+    }).then(e=>{
+      let data = {type:1};
+      app.ajax({url,data}).then(res=>{
+        let { list } = res;
+        let currentList = [...e,...list];
+        orderList.sourceMap(currentList);
+        orderList.getMap(this.data.doctorId/1);
+      })
+    })
   }
 })

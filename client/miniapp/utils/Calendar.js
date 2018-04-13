@@ -45,7 +45,7 @@ export class Calendar{
       }else if(new Date(this.year,this.month,i+1).getTime()<today.getTime()){
         arr.push([i + 1, { day: i + 1 ,isOver:true}]);
       }else{
-        arr.push([i + 1, { day: i + 1 }]);
+        arr.push([i + 1, { day: i + 1 ,isFuture:true}]);
       }
     }
     this.map = new Map(emptydata.concat(arr));

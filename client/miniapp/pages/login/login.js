@@ -131,6 +131,7 @@ Page({
         data,
       }).then(res => {
         wx.setStorageSync('password', this.data.value);
+        wx.setStorageSync('currentMode', 'doctor');
         let { info: { hospital, office, name, id } } = res;
         app.globalData.doctorInfo = { hospital, office, name };
         wx.redirectTo({
@@ -158,6 +159,7 @@ Page({
       };
       app.ajax({ url, data, method: 'POST' }).then(res => {
         wx.setStorageSync('username',this.data.username);
+        wx.setStorageSync('currentMode', 'user');
         let url = api.patientList();
         let data = {
           type: 1
@@ -201,9 +203,11 @@ Page({
   getInit: function () {
     let username = wx.getStorageSync('username');
     let value = wx.getStorageSync('password');
+    let currentMode = wx.getStorageSync('currentMode')||'user';
     this.setData({
       username,
-      value
+      value,
+      currentMode
     })
   }
 })
