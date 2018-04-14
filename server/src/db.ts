@@ -126,17 +126,34 @@ export default class Database {
   // 绑定医生
   async bindDoctor({ openId, regCode, }: { openId: string, regCode: string, }): Promise<{ flag: boolean, }> {
     let flag = true;
-    let { modifiedCount, } = await this.doctorCollection.updateOne({ regCode, }, { $set: { openId, } });
-    flag = modifiedCount === 1;
-    return { flag, };
+
+    let doct = await this.doctorCollection.findOne({ regCode, openId, });
+    if (doct) {
+      return { flag, };
+    } else {
+      let { modifiedCount, } = await this.doctorCollection.updateOne({ code: regCode, }, { $set: { openId, } });
+      flag = modifiedCount === 1;
+      return { flag, };
+
+    }
+
   }
 
   // 绑定患者
-  async insertPatient({ openId, name, }: { openId: string, name: string, }): Promise<{ flag: boolean, }> {
+  async bindPatient({ openId, name, }: { openId: string, name: string, }): Promise<{ flag: boolean, }> {
     let flag = true;
-    let { insertedCount } = await this.patientCollection.insertOne({ name, openId, });
-    flag = insertedCount == 1;
-    return { flag, };
+    let pa = await this.patientCollection.findOne({ openId, });
+
+    if (pa) {
+      await this.patientCollection.updateOne({ openId, }, { $set: { name, } });
+      return { flag, };
+    } else {
+      let { insertedCount } = await this.patientCollection.insertOne({ name, openId, });
+      flag = insertedCount == 1;
+      return { flag, }
+
+    }
+
   }
 
   async removePatient({ doctorId, }: { doctorId: string, }): Promise<{ flag: boolean, }> {
@@ -176,6 +193,16 @@ export default class Database {
     return { flag, };
   }
 
+
+  // 反设定日历
+  async removeCalendar({ doctorId, year, month, day, type, }: { doctorId: string, year: number, month: number, day: number, type: number, }): Promise<{ flag: boolean, }> {
+    let { deletedCount, } = await this.worktimeCollection.deleteOne({ doctorId, year, month, day, type, });
+    let flag: boolean = deletedCount == 1;
+    return { flag, };
+  }
+
+
+
   // 查看医生某天的工作信息
   async queryWorkDay({ doctorId, year, month, day, }: { doctorId: string, year: number, month: number, day: number, }): Promise<Schema.IWorktime[]> {
     return this.worktimeCollection.find({ doctorId, year, month, day, }).toArray();
@@ -196,12 +223,12 @@ export default class Database {
   }
 
   // 预约
-  async insertOrder({ doctorId, patientId, year, month, day, type, }: { doctorId: string, patientId: string, year: number, month: number, day: number, type: number, }): Promise<{ flag: boolean }> {
+  async insertOrder({ doctorId, patientId, year, month, day, type, }: { doctorId: string, patientId: string, year: number, month: number, day: number, type: number, }): Promise<{ flag: boolean,id?:string, }> {
     let flag: boolean = true;
     let time = new Date(year, month - 1, day);
-    let { insertedCount, } = await this.orderCollection.insertOne({ doctorId, patientId, year, month, day, type,time, });
+    let { insertedCount,insertedId, } = await this.orderCollection.insertOne({ doctorId, patientId, year, month, day, type, time, });
     flag = insertedCount == 1;
-    return { flag, };
+    return { flag, id:insertedId.toHexString(), };
   }
 
   // 取消预约

@@ -51,9 +51,9 @@ export default function handle(app: express.Express) {
     let resData: Protocol.IResWorkDay;
 
     let doctorId = req.query['doctorId'];
-    let year = req.query['year'] - 0;
-    let month = req.query['month'] - 0;
-    let day = req.query['day'] - 0;
+    let year = req.query['year'] && (req.query['year'] - 0)
+    let month = req.query['month'] && (req.query['month'] - 0)
+    let day = req.query['day'] && (req.query['day'] - 0)
 
     let db = await Database.getIns();
     let list = await db.queryWorkDay({ doctorId, year, month, day, });
@@ -75,7 +75,9 @@ export default function handle(app: express.Express) {
     let { regCode, } = req.body as Protocol.IReqBind;
     let openId: string = req.headers['openId'] as string;
 
+
     let db = await Database.getIns();
+
     let { flag, } = await db.bindDoctor({ openId, regCode, });
 
     if (!flag) {
@@ -84,6 +86,11 @@ export default function handle(app: express.Express) {
       return;
     }
 
+    let info = await db.queryOne('doctor', { openId, });
+    info.code = undefined;
+    info.id = info._id;
+    info._id = undefined;
+    resData = { info, };
     res.json(resData);
   });
 
@@ -96,7 +103,7 @@ export default function handle(app: express.Express) {
 
     let db = await Database.getIns();
     console.log('绑定病人信息', openId, name);
-    let { flag, } = await db.insertPatient({ openId, name, });
+    let { flag, } = await db.bindPatient({ openId, name, });
 
     if (!flag) {
       resData = { code: 0, errMsg: '数据库失误', };

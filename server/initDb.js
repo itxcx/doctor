@@ -72,30 +72,30 @@ async function createUser(ins) {
 async function initDoctorCode(ins) {
     let table = ins.db('doctor');
     let data = [{
-            hospital: '仁爱医院',
+            hospital: '湖州医院',
             office: '外科',
-            name: '熊猫',
+            name: '童扑满',
             code: 'a12345678',
         }, {
-            hospital: '仁爱医院',
+            hospital: '上海医院',
             office: '内科',
-            name: '狗熊',
-            code: 'a12345678',
+            name: '张晶杰',
+            code: 'b12345678',
         }, {
-            hospital: '公立医院',
+            hospital: '杭州医院',
             office: '外科',
-            name: '凤凰',
-            code: 'a12345678',
+            name: '张建良',
+            code: 'c12345678',
         }, {
-            hospital: '公立医院',
+            hospital: '杭州医院',
             office: '内科',
-            name: '孔雀',
-            code: 'a12345678',
+            name: '钱骏',
+            code: 'd12345678',
         }, {
             hospital: '公立医院',
             office: '神经科',
-            name: '喜鹊',
-            code: 'a12345678',
+            name: '吴俊',
+            code: 'e12345678',
         },
 
     ];

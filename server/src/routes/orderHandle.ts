@@ -54,10 +54,11 @@ export default function handle(app: express.Express) {
         return;
       }
     }
-
-    let { flag, } = await db.insertOrder({ doctorId, patientId, year, month, day, type, });
-    resData = {};
-    res.json(resData);
+    {
+      let { flag, id } = await db.insertOrder({ doctorId, patientId, year, month, day, type, });
+      resData = { id, };
+      res.json(resData);
+    }
   });
 
 
