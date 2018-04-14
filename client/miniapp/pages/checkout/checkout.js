@@ -30,7 +30,9 @@ Page({
     isglobal: false,
     isOrder: false,
     amSettingBtn:'预约',
-    pmSettingBtn:'预约'
+    pmSettingBtn:'预约',
+    pmId:-1,
+    amId:-1,
   },
 
   /**
@@ -211,19 +213,27 @@ Page({
     if(this.data.doctorSetting){
       this.getDoctorList();
     }else{
+      this.data.patient ={
+        am: false,
+        pm: false,
+      }
       let dateTime = new Date(`${this.data.currentChooseYear/1}-${this.data.currentChooseMonth/1}-${this.data.currentChooseday/1}`).getTime();
       if (orderList.dateMap.has(dateTime)){
         let arr = orderList.dateMap.get(dateTime);
         arr.forEach(el=>{
             if (el.type === 0){
               this.data.amSettingBtn = '取消'
+              this.data.amId = el.id;
             } else if (el.type !== 1){
               this.data.amSettingBtn = '预约'
+              this.data.amId = -1;
             }
             if (el.type === 1 ) {
               this.data.pmSettingBtn = '取消'
+              this.data.pmId =el.id;
             } else if (el.type !== 0){
               this.data.pmSettingBtn = '预约'
+              this.data.pmId = -1;
             }
         })
       }else{
@@ -239,8 +249,10 @@ Page({
       setAble:this.data.setAble,
       isOrder: this.data.isOrder,
       amSettingBtn:this.data.amSettingBtn,
-      pmSettingBtn: this.data.pmSettingBtn
-
+      pmSettingBtn: this.data.pmSettingBtn,
+      pmId:this.data.pmId,
+      amId:this.data.amId,
+      patient:this.data.patient
     })
   },
   allSetting: function () {
@@ -393,43 +405,71 @@ Page({
     })
   },
   patientOrderAm: function (e) {
-    let { detail: { formId }, currentTarget:{dataset:{able}}} = e;
+    let { detail: { formId,target:{dataset:{id}} }, currentTarget:{dataset:{able}}} = e;
+
     if(able){
-      let url = api.patientOrder();
-      let data = {
-        year:this.data.currentChooseYear,
-        month:this.data.currentChooseMonth,
-        day:this.data.currentChooseday,
-        userCode: formId,
-        id: this.data.doctorId,
-        type:0
-      }
-      app.ajax({ method:'POST', url, data}).then(res=>{
-        wx.showToast({
-          title: '预约成功',
-          icon:'success'
+      if(id !==-1){
+        this.cancel(id,'am');
+      }else{
+        let url = api.patientOrder();
+        let data = {
+          year: this.data.currentChooseYear,
+          month: this.data.currentChooseMonth,
+          day: this.data.currentChooseday,
+          userCode: formId,
+          id: this.data.doctorId,
+          type: 0
+        }
+        app.ajax({ method: 'POST', url, data }).then(res => {
+          let { id } = res;
+          this.data.amId = id;
+          wx.showToast({
+            title: '预约成功',
+            icon: 'success'
+          })
+          this.data.amSettingBtn = '取消';
+          this.data.patient.am = false;
+          this.setData({
+            amSettingBtn: this.data.amSettingBtn,
+            patient: this.data.patient,
+            amId:this.data.amId
+          })
         })
-      })
+      }
+      
     }
   },
-  patientOrderPm: function () {
-    let { detail: { formId }, currentTarget: { dataset: { able } } } = e;
+  patientOrderPm: function (e) {
+    let { detail: { formId,target: { dataset: { id } } }, currentTarget: { dataset: { able } } } = e;
     if (able) {
-      let url = api.patientOrder();
-      let data = {
-        year: this.data.currentChooseYear,
-        month: this.data.currentChooseMonth,
-        day: this.data.currentChooseday,
-        userCode: formId,
-        id: this.data.doctorId,
-        type: 1
-      }
-      app.ajax({ method: 'POST', url, data }).then(res => {
-        wx.showToast({
-          title: '预约成功',
-          icon: 'success'
+      if(id!==-1){
+        this.cancel(id, 'pm');
+      }else{
+        let url = api.patientOrder();
+        let data = {
+          year: this.data.currentChooseYear,
+          month: this.data.currentChooseMonth,
+          day: this.data.currentChooseday,
+          userCode: formId,
+          id: this.data.doctorId,
+          type: 1
+        }
+        app.ajax({ method: 'POST', url, data }).then(res => {
+          let { id }  = res;
+          wx.showToast({
+            title: '预约成功',
+            icon: 'success'
+          })
+          this.data.pmSettingBtn = '取消';
+          this.data.patient.pm = false;
+          this.data.pmId =  id;
+          this.setData({
+            pmSettingBtn: this.data.pmSettingBtn,
+            patient:this.data.patient,
+            pmId: this.data.pmId
+          })
         })
-      })
+      }
     }
   },
   confirm:function(){
@@ -440,10 +480,31 @@ Page({
       this.ampmSetting(0, this.data.pm);
     }
   },
-  cancel:function(){
-    this.setData({
-      isChoose: false
-    })
+  cancel:function(id,time){
+    let url = api.cancel();
+    let data = { id };
+    app.ajax({url,data}).then(res=>{
+      if(time === 'am'){
+        this.data.amSettingBtn = '预约';
+        this.data.patient.am = false;
+        this.data.amId = -1
+      }else{
+        this.data.pmSettingBtn = '预约';
+        this.data.patient.pm = false;
+        this.data.pmId = -1
+      }
+      wx.showToast({
+        title: '取消成功',
+        icon: 'success'
+      })
+      this.setData({
+        amSettingBtn:this.data.amSettingBtn,
+        pmSettingBtn:this.data.pmSettingBtn,
+        patient:this.data.patient,
+        amId:this.data.amId,
+        pmId:this.data.pmId,
+      })
+    }) 
   },
   getOrderList:function(){
     let url = api.patientList();

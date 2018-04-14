@@ -134,7 +134,7 @@
           <view class='end'>{{am.endTime}}</view>
         </view>
         <form class='setting-wrapper' report-submit='true' bindsubmit='patientOrderAm' data-able='{{patient.am}}'>
-          <button class='setting {{patient.am?"active":""}}' form-type='submit' >{{amSettingBtn}}</button>
+          <button class='setting {{patient.am?"active":""}}' form-type='submit'  data-id='{{amId}}'>{{amSettingBtn}}</button>
         </form>
       </view>
       <view class='pm'>
@@ -149,8 +149,8 @@
           </view>
           <view class='end'>{{pm.endTime}}</view>
         </view>
-        <form class='setting-wrapper' report-submit='true' bindsubmit='patientObderPm' data-able='{{patient.pm}}'>
-          <button class='setting {{patient.pm?"active":""}}' form-type='submit'>{{pmSettingBtn}}</button>
+        <form class='setting-wrapper' report-submit='true' bindsubmit='patientOrderPm' data-able='{{patient.pm}}'>
+          <button class='setting {{patient.pm?"active":""}}' form-type='submit' data-id='{{pmId}}'>{{pmSettingBtn}}</button>
         </form>
       </view>
     </view>

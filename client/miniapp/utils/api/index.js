@@ -9,5 +9,6 @@ export const api = {
   calendar: () => `${BASE_URL}/common/calendar`,
   patientList:()=>`${BASE_URL}/patient/list`,
   patientOrder: () => `${BASE_URL}/patient/order`,
-  patientReg: () => `${BASE_URL}/patient/reg'`
+  patientReg: () => `${BASE_URL}/patient/reg'`,
+  cancel: () => `${BASE_URL}/patient/order/cancel`
 }

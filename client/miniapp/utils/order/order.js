@@ -5,6 +5,7 @@ export class Order {
     this.name = arg.name;
     this.office = arg.office;
     this.hospital = arg.hospital;
+    this.id = arg.id;
   }
 
   getNowtime(){

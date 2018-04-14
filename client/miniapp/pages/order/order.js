@@ -18,7 +18,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getList();
+    this.getList(1);
   },
 
   /**
@@ -76,13 +76,13 @@ Page({
         first:false,
         more:'当前预约'
       })
-      this.getList();
+      this.getList(0);
     }
   },
-  getList: function () {
+  getList: function (currentType) {
     let url = api.patientList();
     let data = {
-      type: this.data.type
+      type: currentType
     }
     app.ajax({
       url, data
@@ -94,7 +94,7 @@ Page({
         order.getStatus();
         arr.push(order);
       })
-      if (this.data.type) {
+      if (currentType) {
         this.data.list = [...this.data.list, ...arr];
       } else {
         this.data.list = [...arr, ...this.data.list];
@@ -102,13 +102,26 @@ Page({
       this.setData({
         list: this.data.list
       })
-    }).catch(e => {
-      console.log(e);
     })
   },
   handleJumpCategroy:function(){
     wx.navigateTo({
       url: '/pages/category/category',
     })
+  },
+  cancel:function(e){
+    let { currentTarget:{dataset:{id}} } =e;
+    let url = api.cancel();
+    let data = {id};
+    app.ajax({url,data}).then(res=>{
+      this.setData({
+        list:[],
+        first: true
+      })
+      this.getList(1);
+      if(!this.data.type){
+        this.changeType(0)
+      }
+    });
   }
 })

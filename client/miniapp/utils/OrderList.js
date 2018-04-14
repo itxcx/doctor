@@ -4,6 +4,7 @@ class SourceDate{
     this.year = arg.year;
     this.day = arg.day;
     this.type  = arg.type;
+    this.id = arg.id;
     this._init();
   }
 
@@ -12,7 +13,7 @@ class SourceDate{
     let year = this.year;
     let day = this.day;
     let currentType =this.type;
-    this.dateArr = [new Date(`${year}-${month}-${day}`).getTime(),{"type":currentType}]
+    this.dateArr = [new Date(`${year}-${month}-${day}`).getTime(),{"type":currentType,'id':this.id}]
   }
 }
 
