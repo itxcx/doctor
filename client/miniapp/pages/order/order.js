@@ -97,7 +97,7 @@ Page({
       if (currentType) {
         this.data.list = [...this.data.list, ...arr];
       } else {
-        this.data.list = [...arr, ...this.data.list];
+        this.data.list = [...this.data.list];
       }
       this.setData({
         list: this.data.list
@@ -113,7 +113,7 @@ Page({
     let { currentTarget:{dataset:{id}} } =e;
     let url = api.cancel();
     let data = {id};
-    app.ajax({url,data}).then(res=>{
+    app.ajax({url,data,method:'POST'}).then(res=>{
       this.setData({
         list:[],
         first: true

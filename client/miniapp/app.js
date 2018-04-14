@@ -6,7 +6,7 @@ import { ajax } from './utils/util.js'
 App({
   onLaunch: function () {
     // 展示本地存储能力
-    mock.test();
+    // mock.test();
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
@@ -49,8 +49,8 @@ App({
           url: url,
           data,
           success: res => {
-            if (res.code == CONFIG.ERR_OK) {
-              let { token } = res;
+            if (res.data.code === undefined) {
+              let { token } = res.data;
               wx.setStorageSync('token', token);
             }
           }
