@@ -127,15 +127,13 @@ export default class Database {
   async bindDoctor({ openId, regCode, }: { openId: string, regCode: string, }): Promise<{ flag: boolean, }> {
     let flag = true;
 
-    let doct = await this.doctorCollection.findOne({ regCode, openId, });
-    if (doct) {
-      return { flag, };
-    } else {
-      let { modifiedCount, } = await this.doctorCollection.updateOne({ code: regCode, }, { $set: { openId, } });
-      flag = modifiedCount === 1;
-      return { flag, };
+    await this.doctorCollection.update({ openId, }, { $unset: { openId: true } });
 
-    }
+    let { modifiedCount, } = await this.doctorCollection.updateOne({ code: regCode, }, { $set: { openId, } });
+    flag = modifiedCount === 1;
+    return { flag, };
+
+    
 
   }
 
