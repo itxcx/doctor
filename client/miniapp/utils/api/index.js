@@ -1,4 +1,5 @@
-const BASE_URL = 'http://192.168.1.102:3000';
+// const BASE_URL = 'http://192.168.1.102:3000';
+const BASE_URL = 'http://api.puman.xyz:3000';
 export const api = {
   login: () => `${BASE_URL}/getToken`,
   bind: () => `${BASE_URL}/bind`,

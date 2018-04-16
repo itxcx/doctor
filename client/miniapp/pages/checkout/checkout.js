@@ -245,8 +245,10 @@ Page({
           }
         })
       } else {
-        this.data.amSettingBtn = '预约'
-        this.data.pmSettingBtn = '预约'
+        this.data.amSettingBtn = '预约';
+        this.data.pmSettingBtn = '预约';
+        this.data.amId = -1 ;
+        this.data.pmId = -1 ;
       }
     }
     this.setData({
@@ -387,14 +389,16 @@ Page({
         icon: 'successs'
       })
       this.setDateInfo();
-      if (type === 0) {
-        this.data.am.settingBtn = '取消';
-        this.data.am.setting = 'cancel';
-        this.data.am.active = false;
-      } else if (type === 1) {
-        this.data.pm.settingBtn = '取消';
-        this.data.pm.setting = 'cancel';
-        this.data.pm.active = false;
+      if(!this.data.isglobal){
+        if (type === 0) {
+          this.data.am.settingBtn = '取消';
+          this.data.am.setting = 'cancel';
+          this.data.am.active = false;
+        } else if (type === 1) {
+          this.data.pm.settingBtn = '取消';
+          this.data.pm.setting = 'cancel';
+          this.data.pm.active = false;
+        }
       }
       this.setData({
         am: this.data.am,
