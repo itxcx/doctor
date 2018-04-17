@@ -46,6 +46,8 @@ export default function handle(app: express.Express) {
 
     let { flag, } = await db.removeCalendar({ doctorId, year, month, day, type, });
 
+    // 删除相关的预约
+
     res.json({});
 
   });
