@@ -80,6 +80,7 @@ Page({
     }
   },
   getList: function (currentType) {
+    console.log(currentType);
     let url = api.patientList();
     let data = {
       type: currentType
@@ -94,13 +95,9 @@ Page({
         order.getStatus();
         arr.push(order);
       })
-      if (currentType) {
-        this.data.list = [...this.data.list, ...arr];
-      } else {
-        this.data.list = [...this.data.list];
-      }
+      arr = arr.sort(this.compare);
       this.setData({
-        list: this.data.list
+        list: arr
       })
     })
   },
@@ -123,5 +120,16 @@ Page({
         this.changeType(0)
       }
     });
+  },
+  compare:function(a,b){
+    let val1 = new Date(a.date).getTime()+ (a.type==='上午'? 0 :1);
+    let val2 = new Date(b.date).getTime()+ (b.type === '上午' ? 0 : 1);
+    if(val1<val2){
+      return -1;
+    }else if(val1>val2){
+      return 1;
+    }else{
+      return 0
+    }
   }
 })
