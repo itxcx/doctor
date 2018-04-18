@@ -88,7 +88,7 @@ export default class Database {
     return await this.currDb.collection(collectionName).findOne(query);
   }
 
-  async query(collectionName: string, query: {}): Promise<any> {
+  async query(collectionName: string, query: {}): Promise<any[]> {
     return await this.currDb.collection(collectionName).find(query).toArray();
   }
 

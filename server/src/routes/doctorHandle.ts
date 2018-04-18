@@ -3,6 +3,8 @@ import * as Protocol from '../protocol';
 import config from '../config';
 import Database from '../db';
 import utils from '../utils';
+import wx from '../wx';
+import * as mongodb from 'mongodb';
 
 export default function handle(app: express.Express) {
   // 取消工作时间
@@ -46,7 +48,45 @@ export default function handle(app: express.Express) {
 
     let { flag, } = await db.removeCalendar({ doctorId, year, month, day, type, });
 
-    // 删除相关的预约
+
+    // 获取所有预约的form_id
+    let list = (await db.query('order', { doctorId, year, month, day, type, }));
+    if (list.length > 0) {
+      let doctor = await db.queryOne('doctor', { _id: new mongodb.ObjectId(list[0].doctorId) });
+      for (let i = 0; i < list.length; i++) {
+        let n = list[i];
+        n.openId = (await db.queryOne('patient', { _id: new mongodb.ObjectId(n.patientId) })).openId;
+      }
+      // 获取token
+      let accessToken = await wx.getAccessToken();
+      // 通知预约取消
+      list.forEach(n => {
+        let data = {
+          touser: n.openId,
+          template_id: config.wx.templateId,
+          form_id: n.formId,
+          data: {
+            keyword1: {
+              value: doctor.name,
+            },
+            keyword2: {
+              value: `${year}年${month}月${day}日 ${type == 0 ? '上午' : '下午'}`,
+            },
+            keyword3: {
+              value: `${doctor.hospital} ${doctor.office}`,
+            },
+          },
+        };
+        console.log('消息模版:',data);
+        wx.sendMessage(data, accessToken);
+      });
+
+      // 删除相关的预约
+      await db.remove('order', { doctorId, year, month, day, type, });
+
+    }
+
+
 
     res.json({});
 

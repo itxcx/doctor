@@ -50,6 +50,8 @@ let config = {
   wx: {
     appId: 'wx78e8934b88e1cd61',
     appSecret: '3da2d219dfd019df08433c2cd60ee2de',
+    // 信息模版Id
+    templateId: 'Dnl4Or0oVcnf06-5pT8oN71d4tSDYhoAon_P8FyOvKE',
   },
 
   // mockOpenId
