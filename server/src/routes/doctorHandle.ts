@@ -70,10 +70,10 @@ export default function handle(app: express.Express) {
               value: doctor.name,
             },
             keyword2: {
-              value: `${year}年${month}月${day}日 ${type == 0 ? '上午' : '下午'}`,
+              value: `${doctor.hospital} ${doctor.office}`,
             },
             keyword3: {
-              value: `${doctor.hospital} ${doctor.office}`,
+              value: `${year}年${month}月${day}日 ${type == 0 ? '上午' : '下午'}`,
             },
           },
         };

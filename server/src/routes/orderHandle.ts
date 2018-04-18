@@ -55,7 +55,7 @@ export default function handle(app: express.Express) {
       }
     }
     {
-      let { flag, id } = await db.insertOrder({ doctorId, patientId, year, month, day, type, });
+      let { flag, id } = await db.insertOrder({ doctorId, patientId, year, month, day, type,formId:userCode, });
       resData = { id, };
       res.json(resData);
     }

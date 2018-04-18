@@ -133,7 +133,7 @@ export default class Database {
     flag = modifiedCount === 1;
     return { flag, };
 
-    
+
 
   }
 
@@ -221,12 +221,12 @@ export default class Database {
   }
 
   // 预约
-  async insertOrder({ doctorId, patientId, year, month, day, type, }: { doctorId: string, patientId: string, year: number, month: number, day: number, type: number, }): Promise<{ flag: boolean,id?:string, }> {
+  async insertOrder({ doctorId, patientId, year, month, day, type, formId, }: { doctorId: string, patientId: string, year: number, month: number, day: number, type: number, formId: string, }): Promise<{ flag: boolean, id?: string, }> {
     let flag: boolean = true;
     let time = new Date(year, month - 1, day);
-    let { insertedCount,insertedId, } = await this.orderCollection.insertOne({ doctorId, patientId, year, month, day, type, time, });
+    let { insertedCount, insertedId, } = await this.orderCollection.insertOne({ doctorId, patientId, year, month, day, type, time, formId, });
     flag = insertedCount == 1;
-    return { flag, id:insertedId.toHexString(), };
+    return { flag, id: insertedId.toHexString(), };
   }
 
   // 取消预约
