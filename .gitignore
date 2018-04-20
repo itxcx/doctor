@@ -1,5 +1,6 @@
 node_modules/
 README.html
+deploy.html
 !.gitkeep
 protocol.html
 dist/
