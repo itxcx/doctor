@@ -63,9 +63,9 @@ params:
 ## 设置工作时间
 ** request **
 route:'/doctor/set/worktime'
-method:'get'
+method:'post'
 header:{token:string,}
-params:
+body:
 {
   // time为undefined为全局设置
   // 否者为某一天的特定设置
@@ -107,6 +107,35 @@ params:
   
 }
 
+## 反设置工作时间
+** request **
+route:'/doctor/unset/worktime'
+method:'post'
+header:{token:string,}
+body:
+{
+  year:number,
+  month:number,
+  day:number,
+  // 上午/下午
+  // 0 表示上午
+  // 1 表示下午
+  type: number,
+}
+
+** response **
+{
+  // 错误码,undefined表示没有错误
+  // 0 表示非法的日期设定
+  // 1 表示非法的上下午设定
+  // 3 过去的日子无法设定
+  code?:number,
+  // 错误文本信息,提供给前端调试
+  errMsg?:string,
+  // ==================== 华丽分割线 ==================== 
+  
+}
+
 
 ## 医生查看某日预约列表
 ** request **
@@ -130,25 +159,7 @@ params:
   list:{name:string,}[][],
 }
 
-## 设置病人信息
-** request **
-route:'/patient/reg'
-method:'post'
-header:{token:string,}
-params:
-{
-  name:string,
-}
 
-** response **
-{
-  // 错误码,undefined表示没有错误
-  code?:number,
-  // 错误文本信息,提供给前端调试
-  errMsg?:string,
-  // ==================== 华丽分割线 ==================== 
-  
-}
 
 ## 获取所有医院,科室,医生信息
 ** request **
@@ -326,7 +337,7 @@ params:
 ## 病人取消预约
 ** request **
 route:'/patient/order/cancel'
-method:'get'
+method:'post'
 header:{token:string,}
 params:
 {

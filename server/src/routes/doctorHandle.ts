@@ -3,8 +3,95 @@ import * as Protocol from '../protocol';
 import config from '../config';
 import Database from '../db';
 import utils from '../utils';
+import wx from '../wx';
+import * as mongodb from 'mongodb';
 
 export default function handle(app: express.Express) {
+  // 取消工作时间
+  app.post('/doctor/unset/worktime', async (req, res) => {
+    let resData: Protocol.IResUnsetWorktime;
+    let db = await Database.getIns();
+    let doctorId: string = req.headers['doctorId'] as string;
+    let { year, month, day, type, } = req.body as Protocol.IReqUnsetWorktime;
+    {
+
+      let flag = utils.checkDate(year, month, day);
+      if (!flag) {
+        resData = { code: 0, errMsg: '非法的日期设定', };
+        res.json(resData);
+        return;
+      }
+
+    }
+
+    {
+      let flag = [0, 1].indexOf(type) >= 0;
+      if (!flag) {
+        resData = { code: 1, errMsg: '非法的上下午设定', };
+        res.json(resData);
+        return;
+      }
+    }
+
+
+
+    {
+      {
+        // 取今天零点
+        if (utils.isPastTime(year, month, day)) {
+          resData = { code: 3, errMsg: '过去的日子无法设定', };
+          res.json(resData);
+          return;
+        }
+      }
+    }
+
+    let { flag, } = await db.removeCalendar({ doctorId, year, month, day, type, });
+
+
+    // 获取所有预约的form_id
+    let list = (await db.query('order', { doctorId, year, month, day, type, }));
+    if (list.length > 0) {
+      let doctor = await db.queryOne('doctor', { _id: new mongodb.ObjectId(list[0].doctorId) });
+      for (let i = 0; i < list.length; i++) {
+        let n = list[i];
+        n.openId = (await db.queryOne('patient', { _id: new mongodb.ObjectId(n.patientId) })).openId;
+      }
+      // 获取token
+      let accessToken = await wx.getAccessToken();
+      // 通知预约取消
+      list.forEach(n => {
+        let data = {
+          touser: n.openId,
+          template_id: config.wx.templateId,
+          form_id: n.formId,
+          data: {
+            keyword1: {
+              value: doctor.name,
+            },
+            keyword2: {
+              value: `${doctor.hospital} ${doctor.office}`,
+            },
+            keyword3: {
+              value: `${year}年${month}月${day}日 ${type == 0 ? '上午' : '下午'}`,
+            },
+          },
+        };
+        console.log('消息模版:',data);
+        wx.sendMessage(data, accessToken);
+      });
+
+      // 删除相关的预约
+      await db.remove('order', { doctorId, year, month, day, type, });
+
+    }
+
+
+
+    res.json({});
+
+  });
+
   // 设置工作时间
   app.post('/doctor/set/worktime', async (req, res) => {
     let resData: Protocol.IResSetWorktime;
@@ -55,7 +142,7 @@ export default function handle(app: express.Express) {
           endValue <= maxValue;
 
       };
-      let flag = [start.minute, end.minute].every(n => [0, 30].indexOf(n) >= 0) &&
+      let flag = [start.minute, end.minute].every(n => n >= 0 && n <= 59) &&
         (type == 0 ? [start.hour, end.hour].every(n => n >= 0 && n <= 12) : true) &&
         (type == 1 ? [start.hour, end.hour].every(n => n >= 12 && n <= 24) : true) &&
         (type == 0 ? check(start, end, { hour: 0, minute: 0 }, { hour: 12, minute: 0 }, ) : true) &&
@@ -71,7 +158,7 @@ export default function handle(app: express.Express) {
     {
       if (time) {
         // 取今天零点
-        if (utils.isPastTime(time.year,time.month,time.day)) {
+        if (utils.isPastTime(time.year, time.month, time.day)) {
           resData = { code: 3, errMsg: '过去的日子无法设定', };
           res.json(resData);
           return;
@@ -79,6 +166,7 @@ export default function handle(app: express.Express) {
       }
     }
 
+    console.log({ doctorId, year, month, day, type, start, end, });
     let { flag, } = await db.insertCalendar({ doctorId, year, month, day, type, start, end, });
 
     res.json({});
@@ -104,7 +192,7 @@ export default function handle(app: express.Express) {
 
     let list0 = list.filter(n => n.type == 0).map(n => ({ name: n.name }));
     let list1 = list.filter(n => n.type == 1).map(n => ({ name: n.name }));
-    resData = { list: [list0, list1,]};
+    resData = { list: [list0, list1,] };
     res.json(resData);
 
   });

@@ -133,6 +133,22 @@ export interface IResWorkDay extends IResBase {
   }[],
 }
 
+// 医生取消上班时间
+// 
+export interface IReqUnsetWorktime {
+  year: number,
+  month: number,
+  day: number,
+  type: number,
+}
+
+
+export interface IResUnsetWorktime extends IResBase {
+  // 0 表示非法的日期设定
+  // 1 表示非法的上下午设定
+  // 3 过去的日子无法设定
+}
+
 
 // 医生设置时间
 export interface IReqSetWorktime {
@@ -206,6 +222,7 @@ export interface IResOrder extends IResBase {
   // 0 非法的日期信息
   // 1 重复预约申请
   // 2 不存在的医生编号
+  id?:string,
 }
 
 

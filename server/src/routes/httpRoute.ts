@@ -23,8 +23,9 @@ export default function handler(app: express.Express) {
       let token: string = req.headers['token'] as string;
       let openId: string = req.headers['openId'] = TokenMgr.getIns().get(token);
 
+
       if (!TokenMgr.getIns().check(token)) {
-        res.json({ code: config.commonErrCode.tokenInvalid, });
+        res.json({ code: config.commonErrCode.tokenInvalid, errMsg: '非法的token' });
         return;
       }
 
@@ -65,7 +66,7 @@ export default function handler(app: express.Express) {
       if (list.length > 0) {
         req.headers['patientId'] = list[0]._id.toString();
       } else {
-        console.error('通过openId找不到patient:',openId);
+        console.error('通过openId找不到patient:', openId);
         res.json({ code: 200, errMsg: '没有patient的访问权限', });
         return;
       }
