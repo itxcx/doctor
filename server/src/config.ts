@@ -5,7 +5,7 @@ const DAY = 24 * HOUR;
 
 let config = {
   // http 端口
-  port: 3000,
+  port: 443,
 
   // 注册正则
   ['rege']: {

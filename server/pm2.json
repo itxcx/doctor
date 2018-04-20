@@ -1,6 +1,6 @@
 {
   "apps": [{
-    "name": "doctor-test",
+    "name": "doctor",
     "script": "./dist/app.js",
     "args": [],
     "watch": ["dist"],
