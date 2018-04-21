@@ -27,7 +27,7 @@
 }
 .order-day{
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   width: 720rpx;
   margin: 0 auto;
@@ -76,6 +76,14 @@
   background: #20a4e9
 }
 
+.left-area{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.right-area{
+  margin-right: 35rpx;
+}
 .last .icon::after{
   height: 0;
 }

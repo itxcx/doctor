@@ -288,6 +288,18 @@ export const dict = {
         message:'绑定成功'
       }
     }
+  },
+
+  [api.cancel()]:(params,header)=>{
+    if(params&&!params.id){
+      return {
+        code:'0',
+        errMsg:'不存在该预约编号'
+      }
+    }
+    return {
+      message:'删除成功'
+    }
   }
 }
 

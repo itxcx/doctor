@@ -22,18 +22,21 @@ const ajax=( options )=>{
         title: 'url必备参数',
       }) 
     }
-    let { url } = options;
+    let { url,method } = options;
+    if(!method){
+      method='GET'
+    }
     let getToken = wx.getStorageSync('token');
     let header = { token: getToken }
     let data = Object.assign({}, options.data);
     mock.request({
-      url, header, data,
+      url, header, data, method,
       success: res => {
-        if(res.code===undefined){
-          resolve(res);
+        if(res.data.code===undefined){
+          resolve(res.data);
         }else{
           wx.showToast({
-            title: res.errMsg,
+            title: res.data.errMsg,
             mask:true,
             icon:'none'
           })  
@@ -47,9 +50,17 @@ const ajax=( options )=>{
 
 }
 
+const addZero =function(n){
+  var str = n;
+  if(n<10){
+    str = `0${n}`
+  }
+  return str.toString();
+}
 
 
 module.exports = {
   formatTime: formatTime,
-  ajax
+  ajax,
+  addZero
 }

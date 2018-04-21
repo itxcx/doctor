@@ -1,9 +1,11 @@
+import { addZero } from '../utils/util.js';
 class SourceDate{
   constructor(arg){
     this.month = arg.month;
     this.year = arg.year;
     this.day = arg.day;
     this.type  = arg.type;
+    this.id = arg.id;
     this._init();
   }
 
@@ -12,7 +14,7 @@ class SourceDate{
     let year = this.year;
     let day = this.day;
     let currentType =this.type;
-    this.dateArr = [new Date(`${year}-${month}-${day}`).getTime(),{"type":currentType}]
+    this.dateArr = [new Date(`${year}-${addZero(month)}-${addZero(day)}`).getTime(),{"type":currentType,'id':this.id}]
   }
 }
 
@@ -43,6 +45,7 @@ export class OrderList {
 
   getMap(id){
     this.dateMap = new Map();
+    console.log(id);
     if(this.map.has(id)){
       let list = this.map.get(id);
       for (let i of list) {

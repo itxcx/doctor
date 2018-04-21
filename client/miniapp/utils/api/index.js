@@ -1,4 +1,5 @@
-const BASE_URL = '';
+// const BASE_URL = 'http://192.168.1.102:3000';
+const BASE_URL = 'https://api.puman.xyz';
 export const api = {
   login: () => `${BASE_URL}/getToken`,
   bind: () => `${BASE_URL}/bind`,
@@ -9,5 +10,7 @@ export const api = {
   calendar: () => `${BASE_URL}/common/calendar`,
   patientList:()=>`${BASE_URL}/patient/list`,
   patientOrder: () => `${BASE_URL}/patient/order`,
-  patientReg: () => `${BASE_URL}/patient/reg'`
+  patientReg: () => `${BASE_URL}/bindPatient`,
+  cancel: () => `${BASE_URL}/patient/order/cancel`,
+  unsetWorkTime:()=>`${BASE_URL}/doctor/unset/worktime`
 }

@@ -1,10 +1,12 @@
+import { addZero} from '../util.js';
 export class Order {
   constructor(arg){
     this.type = arg.type===0?"上午":'下午';
-    this.date = `${arg.year}-${arg.month}-${arg.day}`;
+    this.date = `${arg.year}-${addZero(arg.month)}-${addZero(arg.day)}`;
     this.name = arg.name;
     this.office = arg.office;
     this.hospital = arg.hospital;
+    this.id = arg.id;
   }
 
   getNowtime(){
@@ -18,7 +20,7 @@ export class Order {
   getStatus(){
       this.getNowtime();
       let getDate = new Date(this.date).getTime();
-      let currentDate = new Date(this.nowdate).getTime();
+      let currentDate = new Date().getTime();
       if(getDate == currentDate){
         this.status = 'today'
       }else if(getDate > currentDate){
@@ -26,5 +28,6 @@ export class Order {
       }else{
         this.status = 'before';
       }
+      console.log(this.status);
   }
 }

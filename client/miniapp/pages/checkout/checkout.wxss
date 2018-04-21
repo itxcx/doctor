@@ -257,3 +257,7 @@ page{
   display: flex;
   justify-content: space-around;
 }
+.gotoorder{
+  font-size: 30rpx;
+  color: #fff;
+}

@@ -87,7 +87,9 @@ Page({
     let { hospital } = this.data.categoryList[value];
     return this.setData({
       hospital,
-      officeList:this.data.categoryList[value].officeList
+      officeList:this.data.categoryList[value].officeList,
+      office:'',
+      name:'',
     })
   },
   getDoctorList:function(e){
@@ -96,7 +98,8 @@ Page({
       let { office } = this.data.officeList[value];
       return this.setData({
         office,
-        nameList: this.data.officeList[value].nameList
+        nameList: this.data.officeList[value].nameList,
+        name:'',
       })
     }
     return this.showToast('请先选择医院');
