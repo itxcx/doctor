@@ -91,7 +91,8 @@ class Main {
       // cert: fs.readFileSync('./cert/index.pem'),
       ciphers:'AES128+EECDH:AES128+EDH:!aNULL;',
       pfx:fs.readFileSync('./cert/index.pfx'),
-      
+      passphrase: fs.readFileSync('./cert/pfx-password.txt','utf-8'),
+
     };
     let httpsServer = Https.createServer(opts, app);
     // https end
