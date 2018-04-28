@@ -87,9 +87,11 @@ class Main {
 
     // https start
     let opts: Https.ServerOptions = {
-      key: fs.readFileSync('./cert/index.key'),
-      cert: fs.readFileSync('./cert/index.pem'),
+      // key: fs.readFileSync('./cert/index.key'),
+      // cert: fs.readFileSync('./cert/index.pem'),
       ciphers:'AES128+EECDH:AES128+EDH:!aNULL;',
+      pfx:fs.readFileSync('./cert/index.pfx'),
+      
     };
     let httpsServer = Https.createServer(opts, app);
     // https end
