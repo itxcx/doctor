@@ -71,31 +71,38 @@ async function createUser(ins) {
 // 初始化医院
 async function initDoctorCode(ins) {
     let table = ins.db('doctor');
-    let data = [{
-            hospital: '湖州医院',
-            office: '外科',
-            name: '童扑满',
-            code: 'a12345678',
-        }, {
-            hospital: '上海医院',
-            office: '内科',
-            name: '张晶杰',
-            code: 'b12345678',
-        }, {
-            hospital: '杭州医院',
-            office: '外科',
-            name: '张建良',
-            code: 'c12345678',
-        }, {
-            hospital: '杭州医院',
-            office: '内科',
-            name: '钱骏',
-            code: 'd12345678',
-        }, {
-            hospital: '公立医院',
-            office: '神经科',
-            name: '吴俊',
-            code: 'e12345678',
+    let data = [
+        // {
+        //     hospital: '湖州医院',
+        //     office: '外科',
+        //     name: '童扑满',
+        //     code: 'liuzhidan1980',
+        // }, {
+        //     hospital: '上海医院',
+        //     office: '内科',
+        //     name: '张晶杰',
+        //     code: 'b12345678',
+        // }, {
+        //     hospital: '杭州医院',
+        //     office: '外科',
+        //     name: '张建良',
+        //     code: 'c12345678',
+        // }, {
+        //     hospital: '杭州医院',
+        //     office: '内科',
+        //     name: '钱骏',
+        //     code: 'd12345678',
+        // }, {
+        //     hospital: '公立医院',
+        //     office: '神经科',
+        //     name: '吴俊',
+        //     code: 'e12345678',
+        // }, 
+        {
+            hospital: '宝山医院',
+            office: '针灸科',
+            name: '刘志丹',
+            code: 'liuzhidan1980',
         },
 
     ];
